@@ -1,5 +1,6 @@
 import { appbarLinks } from "@/lib/links/links";
-import { AppBar, Box, Button, Toolbar } from "@mui/material";
+import { Home } from "@mui/icons-material";
+import { AppBar, Box, Button, IconButton, Toolbar } from "@mui/material";
 import Link from "next/link";
 
 export const MainAppBar = () => {
@@ -7,6 +8,9 @@ export const MainAppBar = () => {
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
         <Toolbar>
+          <IconButton LinkComponent={Link} href="/" sx={{ color: "white" }}>
+            <Home />
+          </IconButton>
           {appbarLinks.map((x) => (
             <Button
               variant="text"
