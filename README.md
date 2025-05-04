@@ -1,7 +1,12 @@
 # Meal Master Webapp
 
-# Packages
+### Kilder data
 
-- **[NextJS](https://nextjs.org/)** : Main framework, configured with _**eslint**_ and _**prettier**_
-- **[MaterialUI](https://mui.com/material-ui/)** : Component framework, icons included, configured for NextJS.
+- **[Matvaretabellen](https://www.matvaretabellen.no/)** : Oversikt over næringsinnhold fra mattilsynet
+- **[Matprat, mål og vekt](https://www.matprat.no/artikler/mengde-mal-og-vekt/mal-og-vekt/)**
+
+### Pakker
+
+- **[NextJS](https://nextjs.org/)** : Hovedrammeverk med pakker _**eslint**_ og _**prettier**_
+- **[MaterialUI](https://mui.com/material-ui/)** : React komponenter inkludert ikoner, konfigurert for NextJS.
 - **[Redux](https://redux.js.org/usage/nextjs)** : State management

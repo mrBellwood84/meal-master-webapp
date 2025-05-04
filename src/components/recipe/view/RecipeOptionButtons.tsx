@@ -1,13 +1,9 @@
 "use client";
 
+import { AsideButtonListButton } from "@/components/_shared/buttons/AsideButtonListButton";
+import { AsideButtonList } from "@/components/_shared/containers/AsideButtonList";
+import { AsideContainer } from "@/components/_shared/containers/AsideContainer";
 import { CalendarToday, Close, Edit } from "@mui/icons-material";
-import {
-  List,
-  ListItem,
-  ListItemButton,
-  ListItemIcon,
-  ListItemText,
-} from "@mui/material";
 import { useState } from "react";
 
 export const RecipeOptionButtons = () => {
@@ -20,41 +16,28 @@ export const RecipeOptionButtons = () => {
   const clickAway = () => setNoFeatureText(undefined);
 
   return (
-    <List
-      sx={{
-        border: "1px solid lightgray",
-        borderRadius: 1,
-        mb: 1,
-      }}
-    >
-      <ListItem>
-        <ListItemButton onClick={clickEdit}>
-          <ListItemIcon>
-            <Edit />
-          </ListItemIcon>
-          <ListItemText>Rediger</ListItemText>
-        </ListItemButton>
-      </ListItem>
+    <AsideContainer>
+      <AsideButtonList>
+        <AsideButtonListButton
+          icon={<Edit />}
+          label="Rediger"
+          onClick={clickEdit}
+        />
 
-      <ListItem>
-        <ListItemButton onClick={clickAddPlan}>
-          <ListItemIcon>
-            <CalendarToday />
-          </ListItemIcon>
-          <ListItemText>Legg til plan</ListItemText>
-        </ListItemButton>
-      </ListItem>
+        <AsideButtonListButton
+          icon={<CalendarToday />}
+          label="Legg til plan"
+          onClick={clickAddPlan}
+        />
 
-      {noFeatureText && (
-        <ListItem sx={{ color: "red" }}>
-          <ListItemButton onClick={clickAway}>
-            <ListItemIcon>
-              <Close />
-            </ListItemIcon>
-            <ListItemText>{noFeatureText}</ListItemText>
-          </ListItemButton>
-        </ListItem>
-      )}
-    </List>
+        {noFeatureText && (
+          <AsideButtonListButton
+            icon={<Close />}
+            label={noFeatureText}
+            onClick={clickAway}
+          />
+        )}
+      </AsideButtonList>
+    </AsideContainer>
   );
 };
