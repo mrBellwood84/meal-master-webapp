@@ -1,5 +1,12 @@
 # Meal Master Webapp
 
+### .ENV verdier
+
+```env
+# Url for webAPI
+MEALMASTER_API_URL = "http://localhost:5105/api/"
+```
+
 ### Kilder data
 
 - **[Matvaretabellen](https://www.matvaretabellen.no/)** : Oversikt over næringsinnhold fra mattilsynet

@@ -5,6 +5,6 @@ interface IProps {
   children?: ReactNode;
 }
 
-export const AsideButtonList = ({ children }: IProps) => {
+export const AsideItemButtonList = ({ children }: IProps) => {
   return <List dense>{children}</List>;
 };

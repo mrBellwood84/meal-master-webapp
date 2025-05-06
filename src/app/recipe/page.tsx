@@ -1,30 +1,29 @@
-import { createCrudLink } from "@/lib/links/links";
+import { Box } from "@mui/material";
 import Link from "next/link";
-
-const links = createCrudLink("/recipe");
+import { Fragment } from "react";
 
 const RecipePage = () => {
   return (
-    <div>
-      <h1>Oppskrifter</h1>
-      <div>
-        Denne siden skal inneholde oppskrifter. Oppskrifter skal vises som liste
-        eller cards. Søkbar på navn, kategori, ingredienser, med mer.
-      </div>
-      <div>
-        Det skal også være mulighet for å legge til oppskrifter, enten ved å
-        importere fra andre oppskrift sider, eller skrive inn fra bunnen selv.
-        Oppskrifter som blir importert fra andre nettsider, vil ha
-        kildehenvisning med link.
-      </div>
-      <ul>
-        {links.map((x) => (
-          <li key={x.key}>
-            <Link href={x.url}>{x.title}</Link>
-          </li>
-        ))}
-      </ul>
-    </div>
+    <Fragment>
+      <Box
+        sx={{
+          display: "grid",
+          gridTemplateColumns: "1fr 3fr",
+          gridTemplateRows: "auto auto",
+        }}
+      >
+        <Box sx={{ gridRow: 1, gridColumn: 2, bgcolor: "salmon" }}>
+          Søkefelt
+        </Box>
+        <Box sx={{ gridRow: "1/3", gridColumn: 1, bgcolor: "lightblue" }}>
+          Alternativer for søk
+        </Box>
+        <Box sx={{ gridRow: 2, gridColumn: 2, bgcolor: "lightyellow" }}>
+          Grid for oppskrifter. Cards?
+        </Box>
+        <Link href="recipe/view">View</Link>
+      </Box>
+    </Fragment>
   );
 };
 

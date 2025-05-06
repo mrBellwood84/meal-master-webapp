@@ -11,7 +11,7 @@ interface IProps {
   onClick?: () => void;
 }
 
-export const AsideButtonListButton = ({ icon, label, onClick }: IProps) => {
+export const AsideListActionButton = ({ icon, label, onClick }: IProps) => {
   return (
     <ListItem>
       <ListItemButton onClick={onClick}>

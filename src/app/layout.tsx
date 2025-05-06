@@ -1,3 +1,4 @@
+import { StoreProvider } from "@/components/StoreProvider";
 import { MainAppBar } from "../components/MainAppBar";
 import theme from "@/theme";
 import { Container, CssBaseline, ThemeProvider } from "@mui/material";
@@ -27,13 +28,15 @@ const RootLayout = ({ children }: IProps) => {
   return (
     <html lang="no" className={roboto.variable}>
       <body>
-        <AppRouterCacheProvider options={{ enableCssLayer: true }}>
-          <ThemeProvider theme={theme}>
-            <CssBaseline />
-            <MainAppBar />
-            <Container>{children}</Container>
-          </ThemeProvider>
-        </AppRouterCacheProvider>
+        <StoreProvider>
+          <AppRouterCacheProvider options={{ enableCssLayer: true }}>
+            <ThemeProvider theme={theme}>
+              <CssBaseline />
+              <MainAppBar />
+              <Container>{children}</Container>
+            </ThemeProvider>
+          </AppRouterCacheProvider>
+        </StoreProvider>
       </body>
     </html>
   );

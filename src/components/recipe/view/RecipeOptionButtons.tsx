@@ -1,7 +1,7 @@
 "use client";
 
-import { AsideButtonListButton } from "@/components/_shared/buttons/AsideButtonListButton";
-import { AsideButtonList } from "@/components/_shared/containers/AsideButtonList";
+import { AsideListActionButton } from "@/components/_shared/buttons/AsideListActionButton";
+import { AsideActionButtonList } from "@/components/_shared/containers/AsideActionButtonList";
 import { AsideContainer } from "@/components/_shared/containers/AsideContainer";
 import { CalendarToday, Close, Edit } from "@mui/icons-material";
 import { useState } from "react";
@@ -17,27 +17,27 @@ export const RecipeOptionButtons = () => {
 
   return (
     <AsideContainer>
-      <AsideButtonList>
-        <AsideButtonListButton
+      <AsideActionButtonList>
+        <AsideListActionButton
           icon={<Edit />}
           label="Rediger"
           onClick={clickEdit}
         />
 
-        <AsideButtonListButton
+        <AsideListActionButton
           icon={<CalendarToday />}
           label="Legg til plan"
           onClick={clickAddPlan}
         />
 
         {noFeatureText && (
-          <AsideButtonListButton
+          <AsideListActionButton
             icon={<Close />}
             label={noFeatureText}
             onClick={clickAway}
           />
         )}
-      </AsideButtonList>
+      </AsideActionButtonList>
     </AsideContainer>
   );
 };

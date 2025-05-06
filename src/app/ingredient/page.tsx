@@ -1,25 +1,32 @@
-import { createCrudLink } from "@/lib/links/links";
-import Link from "next/link";
-
-const links = createCrudLink("/ingredient");
+import { IngredientList } from "@/components/ingredient/IngredientList";
+import { IngredientSearchBar } from "@/components/ingredient/IngredientSearchBar";
+import { IngredientView } from "@/components/ingredient/IngredientView";
+import { IngredientDataLoader } from "@/components/ingredient/pseudo/ingredientDataLoader";
+import { Box } from "@mui/material";
+import { Fragment } from "react";
 
 const IngredientPage = () => {
   return (
-    <div>
-      <h1>Ingredient page</h1>
-      <div>This page will hold registered Ingredients</div>
-      <div>
-        should include a search bar, and option to get incomplete Ingredient
-        entities
-      </div>
-      <ul>
-        {links.map((x) => (
-          <li key={x.key}>
-            <Link href={x.url}>{x.title}</Link>
-          </li>
-        ))}
-      </ul>
-    </div>
+    <Fragment>
+      <IngredientDataLoader />
+      <Box
+        sx={{
+          display: "grid",
+          gridTemplateColumns: "1fr 3fr",
+          gridTemplateRows: "auto auto",
+        }}
+      >
+        <Box sx={{ gridRow: 1, gridColumn: "1 / 3" }}>
+          <IngredientSearchBar />
+        </Box>
+        <Box sx={{ gridRow: 2, gridColumn: 1 }}>
+          <IngredientList />
+        </Box>
+        <Box sx={{ gridRow: 2, gridColumn: 2, bgcolor: "lightyellow" }}>
+          <IngredientView />
+        </Box>
+      </Box>
+    </Fragment>
   );
 };
 

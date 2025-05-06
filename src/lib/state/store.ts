@@ -1,8 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
+import { ingredientSlice } from "./ingredients/ingredientSlice";
 
 export const makeStore = () => {
   return configureStore({
-    reducer: {},
+    reducer: {
+      ingredients: ingredientSlice.reducer,
+    },
   });
 };
 
