@@ -6,18 +6,18 @@ import { AsideListItemButton } from "../_shared/buttons/AsideListItemButton";
 import { AsideItemButtonList } from "../_shared/containers/AsideItemButtonList";
 import { BoxLoader } from "../_shared/loader/BoxLoader";
 import { Typography } from "@mui/material";
-import { IIngredient } from "@/lib/models/IIngredient";
-import { ingredientSlice } from "@/lib/state/ingredients/ingredientSlice";
+import { IIngredient } from "@/lib/models/Ingredients/IIngredient";
+import { ingredientStateActions } from "@/lib/state/ingredients/ingredientSlice";
 
 export const IngredientList = () => {
   const dispatch = useAppDispatch();
 
-  const filteredData = useAppSelector((s) => s.ingredients.filteredData);
+  const filteredData = useAppSelector((s) => s.ingredients.filtered);
   const loading = useAppSelector((s) => s.ingredients.dataLoading);
   const loadingSuccess = useAppSelector((s) => s.ingredients.dataLoadSuccess);
 
   const setSelectedIngredient = (item: IIngredient) => {
-    dispatch(ingredientSlice.actions.setSelectedIngredient(item));
+    dispatch(ingredientStateActions.setSelected(item));
   };
 
   if (loading)

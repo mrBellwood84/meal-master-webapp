@@ -1,67 +1,92 @@
-import { IIngredient } from "@/lib/models/IIngredient";
+import { IIngredient } from "@/lib/models/Ingredients/IIngredient";
+import { IFilterMenuItem } from "@/lib/models/shared/IFilterMenuItem";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { ingredientSearchFilter } from "./searchFunctions";
+import { ingredientsStoreFunctions } from "./ingredientStoreFunctions";
 
-export interface IngredientState {
-  allData: IIngredient[];
-  filteredData: IIngredient[];
-  selected: IIngredient | null;
+const {
+  initFilterItems,
+  updateFilterItemCount,
+  extractCategoryKeys,
+  stringAndCategorySearch,
+} = ingredientsStoreFunctions;
+
+interface IIngredientState {
+  all: IIngredient[];
+  filtered: IIngredient[];
+  selected?: IIngredient;
 
   searchString: string;
+
+  categoryFilterItems: IFilterMenuItem[];
+  categoryFilterKeys: string[];
 
   dataLoading: boolean;
   dataLoadSuccess: boolean;
 }
 
-const initialState: IngredientState = {
-  allData: [],
-  filteredData: [],
-  selected: null,
-
+const initialState: IIngredientState = {
+  all: [],
+  filtered: [],
   searchString: "",
+  categoryFilterItems: [],
+  categoryFilterKeys: [],
 
   dataLoading: true,
   dataLoadSuccess: false,
 };
 
-export const ingredientSlice = createSlice({
-  name: "ingredient",
+const ingredientSlice = createSlice({
+  name: "ingredients",
   initialState,
   reducers: {
-    setAllIngredients: (state, action: PayloadAction<IIngredient[]>) => {
-      state.allData = action.payload;
-      state.filteredData = action.payload;
+    setAll: (state, action: PayloadAction<IIngredient[]>) => {
+      state.all = action.payload;
+      state.filtered = action.payload;
+      state.categoryFilterItems = initFilterItems(action.payload);
       state.dataLoading = false;
       state.dataLoadSuccess = true;
     },
 
-    setSelectedIngredient: (state, action: PayloadAction<IIngredient>) => {
+    setSelected: (state, action: PayloadAction<IIngredient>) => {
       state.selected = action.payload;
     },
 
-    setSearchString: (state, action: PayloadAction<string>) => {
-      const lenOldStr = action.payload.length;
-      const lenNewStr = state.searchString.length;
-      state.searchString = action.payload;
-
-      if (!action.payload) {
-        state.filteredData = state.allData;
-        return;
-      }
-      if (lenNewStr > lenOldStr) {
-        state.filteredData = ingredientSearchFilter(
-          action.payload,
-          state.filteredData
-        );
-      }
-      state.filteredData = ingredientSearchFilter(
+    handleSearchString: (state, action: PayloadAction<string>) => {
+      const item_result = stringAndCategorySearch(
         action.payload,
-        state.allData
+        state.all,
+        state.categoryFilterKeys
       );
+      const category_filter = updateFilterItemCount(
+        item_result,
+        state.categoryFilterItems
+      );
+
+      state.filtered = item_result;
+      state.categoryFilterItems = category_filter;
+      state.searchString = action.payload;
+    },
+
+    handleCategoryFilter: (state, action: PayloadAction<IFilterMenuItem[]>) => {
+      const keys = extractCategoryKeys(action.payload);
+
+      const item_result = stringAndCategorySearch(
+        state.searchString,
+        state.all,
+        keys
+      );
+
+      state.filtered = item_result;
+      state.categoryFilterItems = action.payload;
+      state.categoryFilterKeys = keys;
     },
 
     setLoadFailed: (state) => {
       state.dataLoading = false;
+      state.dataLoadSuccess = false;
     },
   },
 });
+
+export const ingredientStateActions = ingredientSlice.actions;
+export const ingredientReducer = ingredientSlice.reducer;

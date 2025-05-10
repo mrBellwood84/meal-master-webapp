@@ -2,13 +2,12 @@
 
 import { ingredientAgent } from "@/lib/apiagent/ingredientAgent";
 import { useAppDispatch } from "@/lib/state/hooks";
-import { ingredientSlice } from "@/lib/state/ingredients/ingredientSlice";
+import { ingredientStateActions } from "@/lib/state/ingredients/ingredientSlice";
 import { useEffect, useRef } from "react";
 
 export const IngredientDataLoader = () => {
   // get redux hooks
   const dispatch = useAppDispatch();
-  const { setAllIngredients } = ingredientSlice.actions;
 
   // local hook
   const runApiLoad = useRef<boolean>(false);
@@ -16,7 +15,7 @@ export const IngredientDataLoader = () => {
   // method for api loading
   const apiLoad = async () => {
     const data = await ingredientAgent.getAll();
-    dispatch(setAllIngredients(data));
+    dispatch(ingredientStateActions.setAll(data));
     runApiLoad.current = true;
   };
 

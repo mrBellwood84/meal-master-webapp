@@ -1,10 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { ingredientSlice } from "./ingredients/ingredientSlice";
+import { ingredientReducer } from "./ingredients/ingredientSlice";
 
 export const makeStore = () => {
   return configureStore({
     reducer: {
-      ingredients: ingredientSlice.reducer,
+      ingredients: ingredientReducer,
     },
   });
 };

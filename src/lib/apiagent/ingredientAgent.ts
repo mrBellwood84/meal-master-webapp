@@ -1,4 +1,4 @@
-import { IIngredient } from "../models/IIngredient";
+import { IIngredient } from "../models/Ingredients/IIngredient";
 import { _rootAgent } from "./_rootAgent";
 
 const path = "ingredient";
