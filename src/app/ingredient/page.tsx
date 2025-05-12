@@ -1,5 +1,5 @@
 import { IngredientList } from "@/components/ingredient/IngredientList";
-import { IngredientSearchBar } from "@/components/ingredient/IngredientSearchBar";
+import { IngredientToolbar } from "@/components/ingredient/IngredientToolbar";
 import { IngredientView } from "@/components/ingredient/IngredientView";
 import { IngredientDataLoader } from "@/components/ingredient/pseudo/ingredientDataLoader";
 import { Box } from "@mui/material";
@@ -17,12 +17,12 @@ const IngredientPage = () => {
         }}
       >
         <Box sx={{ gridRow: 1, gridColumn: "1 / 3" }}>
-          <IngredientSearchBar />
+          <IngredientToolbar />
         </Box>
         <Box sx={{ gridRow: 2, gridColumn: 1 }}>
           <IngredientList />
         </Box>
-        <Box sx={{ gridRow: 2, gridColumn: 2, bgcolor: "lightyellow" }}>
+        <Box sx={{ gridRow: 2, gridColumn: 2 }}>
           <IngredientView />
         </Box>
       </Box>

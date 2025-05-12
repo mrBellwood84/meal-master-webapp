@@ -8,7 +8,7 @@ import { FilterMenu } from "../_shared/inputs/FilterMenu";
 import { IFilterMenuItem } from "@/lib/models/shared/IFilterMenuItem";
 import { ingredientStateActions } from "@/lib/state/ingredients/ingredientSlice";
 
-export const IngredientSearchBar = () => {
+export const IngredientToolbar = () => {
   const dispatch = useAppDispatch();
 
   const searchString = useAppSelector((s) => s.ingredients.searchString);
