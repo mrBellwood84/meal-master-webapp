@@ -12,6 +12,7 @@ import {
   ListItemButton,
   ListItemText,
   Menu,
+  SxProps,
 } from "@mui/material";
 import { MouseEvent, useState } from "react";
 
@@ -19,12 +20,14 @@ interface IProps {
   items: IFilterMenuItem[];
   filterSelectAction: (item: IFilterMenuItem) => void;
   filterRemoveAll: () => void;
+  sx?: SxProps;
 }
 
 export const FilterMenu = ({
   items,
   filterSelectAction,
   filterRemoveAll,
+  sx,
 }: IProps) => {
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
   const menuOpen = Boolean(anchorEl);
@@ -41,7 +44,7 @@ export const FilterMenu = ({
   };
 
   return (
-    <Box sx={{ ml: 2 }}>
+    <Box sx={{ ml: 2, ...sx }}>
       <Button
         size="small"
         variant="outlined"

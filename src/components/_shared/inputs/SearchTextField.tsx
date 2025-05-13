@@ -23,6 +23,7 @@ export const SearchTextField = ({
         variant="standard"
         size="small"
         value={value}
+        placeholder="Søk"
         onChange={handleOnChange}
         sx={{ width: 200 }}
         slotProps={{

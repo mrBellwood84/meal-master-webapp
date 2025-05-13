@@ -4,12 +4,12 @@ import { useAppSelector } from "@/lib/state/hooks";
 import { MainContainer } from "../_shared/containers/MainContainer";
 import { Box, capitalize, Chip } from "@mui/material";
 import { SourceText } from "../_shared/text/SourceText";
-import { IngredientMessureTable } from "./components/IngredientMessureTable";
+import { IngredientMessureTable } from "./_components/IngredientMessureTable";
 import { ContentHeader } from "../_shared/text/ContentHeader";
 import { NutrientTable } from "../_shared/nutrient/NutrientTable";
 
-export const IngredientView = () => {
-  const selected = useAppSelector((x) => x.ingredients.selected);
+export const IngredientViewContent = () => {
+  const selected = useAppSelector((x) => x.ingredientView.selected);
 
   if (!selected)
     return (

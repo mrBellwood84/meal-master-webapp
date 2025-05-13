@@ -5,9 +5,21 @@ interface IProps {
   children?: ReactNode;
 }
 
-export const ToobarContainer = ({ children }: IProps) => {
+export const ToolbarContainer = ({ children }: IProps) => {
   return (
-    <Toolbar variant="dense" disableGutters sx={{ mt: 1, mb: 1 }}>
+    <Toolbar
+      variant="dense"
+      disableGutters
+      sx={{
+        display: "flex",
+        alignItems: "center",
+
+        mt: 2,
+        mb: 2,
+        pb: 2,
+        borderBottom: "1px solid black",
+      }}
+    >
       {children}
     </Toolbar>
   );

@@ -1,14 +1,14 @@
-import { IngredientList } from "@/components/ingredient/IngredientList";
-import { IngredientToolbar } from "@/components/ingredient/IngredientToolbar";
-import { IngredientView } from "@/components/ingredient/IngredientView";
-import { IngredientDataLoader } from "@/components/ingredient/pseudo/ingredientDataLoader";
+import { IngredientViewDataloader } from "@/components/ingredient/_pseudo/IngredientViewDataloader";
+import { IngredientViewContent } from "@/components/ingredient/IngredientViewContent";
+import { IngredientViewItemList } from "@/components/ingredient/IngredientViewItemList";
+import { IngredientViewToolbar } from "@/components/ingredient/IngredientViewToolbar";
 import { Box } from "@mui/material";
 import { Fragment } from "react";
 
 const IngredientPage = () => {
   return (
     <Fragment>
-      <IngredientDataLoader />
+      <IngredientViewDataloader />
       <Box
         sx={{
           display: "grid",
@@ -17,13 +17,13 @@ const IngredientPage = () => {
         }}
       >
         <Box sx={{ gridRow: 1, gridColumn: "1 / 3" }}>
-          <IngredientToolbar />
+          <IngredientViewToolbar />
         </Box>
         <Box sx={{ gridRow: 2, gridColumn: 1 }}>
-          <IngredientList />
+          <IngredientViewItemList />
         </Box>
         <Box sx={{ gridRow: 2, gridColumn: 2 }}>
-          <IngredientView />
+          <IngredientViewContent />
         </Box>
       </Box>
     </Fragment>

@@ -9,4 +9,11 @@ export const ingredientAgent = {
     const data: IIngredient[] = await response.json();
     return data;
   },
+
+  getSingle: async (id: string) => {
+    const subdomain = `${path}/${id}`;
+    const response = await _rootAgent.get(subdomain);
+    const data: IIngredient = await response.json();
+    return data;
+  },
 };

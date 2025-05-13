@@ -1,7 +1,7 @@
 import { IIngredient } from "@/lib/models/Ingredients/IIngredient";
 import { IFilterMenuItem } from "@/lib/models/shared/IFilterMenuItem";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { ingredientsStoreFunctions } from "./ingredientStoreFunctions";
+import { ingredientsStoreFunctions } from "./colletion";
 
 const {
   initFilterItems,
@@ -10,7 +10,7 @@ const {
   stringAndCategorySearch,
 } = ingredientsStoreFunctions;
 
-interface IIngredientState {
+interface IState {
   all: IIngredient[];
   filtered: IIngredient[];
   selected?: IIngredient;
@@ -24,7 +24,7 @@ interface IIngredientState {
   dataLoadSuccess: boolean;
 }
 
-const initialState: IIngredientState = {
+const initialState: IState = {
   all: [],
   filtered: [],
   searchString: "",
@@ -35,8 +35,8 @@ const initialState: IIngredientState = {
   dataLoadSuccess: false,
 };
 
-const ingredientSlice = createSlice({
-  name: "ingredients",
+const slice = createSlice({
+  name: "ingredientView",
   initialState,
   reducers: {
     setAll: (state, action: PayloadAction<IIngredient[]>) => {
@@ -88,5 +88,5 @@ const ingredientSlice = createSlice({
   },
 });
 
-export const ingredientStateActions = ingredientSlice.actions;
-export const ingredientReducer = ingredientSlice.reducer;
+export const ingredientViewStateActions = slice.actions;
+export const ingredientViewReducer = slice.reducer;
