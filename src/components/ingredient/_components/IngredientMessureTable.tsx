@@ -22,6 +22,9 @@ const MessureRow = ({ messure }: IRowProps) => {
   return (
     <TableRow hover>
       <TableCell>{capitalize(messure.name)}</TableCell>
+      <TableCell>
+        {messure.namePlural ? capitalize(messure.namePlural) : ""}{" "}
+      </TableCell>
       <TableCell align="center">{messure.unit}</TableCell>
       <TableCell align="center">{messure.quantity}</TableCell>
       <TableCell align="right">{messure.type}</TableCell>
@@ -37,6 +40,7 @@ export const IngredientMessureTable = ({ messures }: ITableProps) => {
         <TableHead>
           <TableRow>
             <TableCell>Navn</TableCell>
+            <TableCell>(Flertall)</TableCell>
             <TableCell align="center">Måleenhet</TableCell>
             <TableCell align="center">I gram</TableCell>
             <TableCell align="right">Type</TableCell>

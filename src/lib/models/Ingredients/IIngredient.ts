@@ -6,6 +6,7 @@ import { IIngredientNutrient } from "./IIngredientNutrient";
 export interface IIngredient {
   id: string;
   name: string;
+  namePlural?: string;
   messures: IIngredientMessure[];
   categories: IIngredientCategory[];
   nutrients: IIngredientNutrient[];
