@@ -1,6 +1,7 @@
 "use client";
 
 import { IngredientEditDataloader } from "@/components/ingredient/_pseudo/IngredientEditDataloader";
+import { IngredientEditContent } from "@/components/ingredient/edit/IngredientEditContent";
 import { IngredientEditToolbar } from "@/components/ingredient/edit/IngredientEditToolbar";
 import { Fragment, useEffect, useState } from "react";
 
@@ -23,13 +24,7 @@ const IngredientEditPage = ({ params }: IProps) => {
     <Fragment>
       {id && <IngredientEditDataloader id={id} />}
       <IngredientEditToolbar />
-      <div>Endre navn</div>
-      <div>Ende navn flertall</div>
-      <div>Checkbox kategorier</div>
-      <div>Rediger målenheter</div>
-      <div>Se kilde</div>
-      <br />
-      <div>Endring blir sendt direkte etter endring av felt</div>
+      <IngredientEditContent />
     </Fragment>
   );
 };

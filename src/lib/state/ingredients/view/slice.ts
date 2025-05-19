@@ -4,9 +4,10 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { ingredientsStoreFunctions } from "./colletion";
 
 const {
-  initFilterItems,
-  updateFilterItemCount,
+  initCategoryFilterMenuItems,
+  updateCategoryFilterMenuItems,
   extractCategoryKeys,
+  stringSearchOnly,
   stringAndCategorySearch,
 } = ingredientsStoreFunctions;
 
@@ -20,8 +21,8 @@ interface IState {
   categoryFilterItems: IFilterMenuItem[];
   categoryFilterKeys: string[];
 
-  dataLoading: boolean;
-  dataLoadSuccess: boolean;
+  loading: boolean;
+  loadSuccess: boolean;
 }
 
 const initialState: IState = {
@@ -31,8 +32,8 @@ const initialState: IState = {
   categoryFilterItems: [],
   categoryFilterKeys: [],
 
-  dataLoading: true,
-  dataLoadSuccess: false,
+  loading: true,
+  loadSuccess: false,
 };
 
 const slice = createSlice({
@@ -41,10 +42,10 @@ const slice = createSlice({
   reducers: {
     setAll: (state, action: PayloadAction<IIngredient[]>) => {
       state.all = action.payload;
-      state.filtered = action.payload;
-      state.categoryFilterItems = initFilterItems(action.payload);
-      state.dataLoading = false;
-      state.dataLoadSuccess = true;
+      state.filtered = stringSearchOnly("", action.payload);
+      state.categoryFilterItems = initCategoryFilterMenuItems(action.payload);
+      state.loading = false;
+      state.loadSuccess = true;
     },
 
     setSelected: (state, action: PayloadAction<IIngredient>) => {
@@ -57,7 +58,7 @@ const slice = createSlice({
         state.all,
         state.categoryFilterKeys
       );
-      const category_filter = updateFilterItemCount(
+      const category_filter = updateCategoryFilterMenuItems(
         item_result,
         state.categoryFilterItems
       );
@@ -82,8 +83,8 @@ const slice = createSlice({
     },
 
     setLoadFailed: (state) => {
-      state.dataLoading = false;
-      state.dataLoadSuccess = false;
+      state.loading = false;
+      state.loadSuccess = false;
     },
   },
 });

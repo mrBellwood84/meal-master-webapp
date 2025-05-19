@@ -7,16 +7,9 @@ import { SourceText } from "../_shared/text/SourceText";
 import { IngredientMessureTable } from "./_components/IngredientMessureTable";
 import { ContentHeader } from "../_shared/text/ContentHeader";
 import { NutrientTable } from "../_shared/nutrient/NutrientTable";
-import { IIngredient } from "@/lib/models/Ingredients/IIngredient";
 
 export const IngredientViewContent = () => {
   const selected = useAppSelector((x) => x.ingredientView.selected);
-
-  const createHeaderTitle = (ingredient: IIngredient) => {
-    const name = capitalize(ingredient.name);
-    const plural = ingredient.namePlural ? ` (${ingredient.namePlural})` : "";
-    return name + plural;
-  };
 
   if (!selected)
     return (
@@ -26,7 +19,7 @@ export const IngredientViewContent = () => {
     );
   return (
     <MainContainer>
-      <ContentHeader title={createHeaderTitle(selected)} />
+      <ContentHeader title={selected!.name} secondary={selected!.namePlural} />
 
       <Box>
         {selected.categories.map((x) => (

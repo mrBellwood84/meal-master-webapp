@@ -1,19 +1,23 @@
 import { IIngredient } from "@/lib/models/Ingredients/IIngredient";
+import { IIngredientCategory } from "@/lib/models/Ingredients/IIngredientCategory";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface IState {
   selected?: IIngredient;
   original?: IIngredient;
 
+  categories: IIngredientCategory[];
+
   changed: boolean;
-  dataLoading: boolean;
-  dataLoadSuccess: boolean;
+  loading: boolean;
+  loadingSuccess: boolean;
 }
 
 const initialState: IState = {
+  categories: [],
   changed: false,
-  dataLoading: true,
-  dataLoadSuccess: false,
+  loading: true,
+  loadingSuccess: false,
 };
 
 const slice = createSlice({
@@ -23,12 +27,21 @@ const slice = createSlice({
     setSelected: (state, action: PayloadAction<IIngredient>) => {
       state.selected = action.payload;
       state.original = action.payload;
-      state.dataLoading = false;
-      state.dataLoadSuccess = true;
+    },
+    setCategories: (state, action: PayloadAction<IIngredientCategory[]>) => {
+      state.categories = action.payload;
+    },
+    setLoading: (state) => {
+      state.loading = true;
+      state.loadingSuccess = false;
+    },
+    setLoadingSuccess: (state) => {
+      state.loading = false;
+      state.loadingSuccess = true;
     },
     setLoadFailed: (state) => {
-      state.dataLoading = false;
-      state.dataLoadSuccess = false;
+      state.loading = false;
+      state.loadingSuccess = false;
     },
   },
 });

@@ -21,10 +21,8 @@ export const IngredientViewItemList = () => {
   const searchfieldValue = useAppSelector((s) => s.ingredientView.searchString);
 
   // loading state
-  const loading = useAppSelector((s) => s.ingredientView.dataLoading);
-  const loadingSuccess = useAppSelector(
-    (s) => s.ingredientView.dataLoadSuccess
-  );
+  const loading = useAppSelector((s) => s.ingredientView.loading);
+  const loadingSuccess = useAppSelector((s) => s.ingredientView.loadSuccess);
 
   // actions
   const { setSelected, handleSearchString } = ingredientViewStateActions;

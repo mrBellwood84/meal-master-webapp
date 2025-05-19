@@ -21,7 +21,7 @@ export const _rootAgent = {
     const response = await fetch(url, {
       method: "GET",
       mode: "cors",
-      headers: {},
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify(body),
     });
 
@@ -34,7 +34,7 @@ export const _rootAgent = {
     const response = await fetch(url, {
       method: "PUT",
       mode: "cors",
-      headers: {},
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify(body),
     });
 
@@ -46,7 +46,7 @@ export const _rootAgent = {
     const response = await fetch(url, {
       method: "DELETE",
       mode: "cors",
-      headers: {},
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify(body),
     });
 

@@ -1,4 +1,5 @@
-import { Box, CircularProgress } from "@mui/material";
+import { Box } from "@mui/material";
+import { InlineLoader } from "./InlineLoader";
 
 interface IProps {
   size?: string | number;
@@ -14,7 +15,7 @@ export const BoxLoader = ({ size }: IProps) => {
         alignItems: "center",
       }}
     >
-      <CircularProgress size={size} />
+      <InlineLoader size={size} />
     </Box>
   );
 };

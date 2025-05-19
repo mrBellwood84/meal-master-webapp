@@ -1,13 +1,14 @@
 import { IIngredient } from "@/lib/models/Ingredients/IIngredient";
 import { IFilterMenuItem } from "@/lib/models/shared/IFilterMenuItem";
 
-const initFilterItems = (ingredients: IIngredient[]) => {
+const initCategoryFilterMenuItems = (ingredients: IIngredient[]) => {
   const result: IFilterMenuItem[] = [];
 
   for (let i = 0; i < ingredients.length; i++) {
     const categories = ingredients[i].categories;
     for (let j = 0; j < categories.length; j++) {
       const cat_name = categories[j].name;
+      if (cat_name.includes("TEST")) continue;
       const res_index = result.findIndex((x) => x.name === cat_name);
       if (res_index !== -1) {
         result[res_index].count++;
@@ -29,7 +30,7 @@ const initFilterItems = (ingredients: IIngredient[]) => {
   return result;
 };
 
-const updateFilterItemCount = (
+const updateCategoryFilterMenuItems = (
   ingredients: IIngredient[],
   filterItems: IFilterMenuItem[]
 ) => {
@@ -38,6 +39,7 @@ const updateFilterItemCount = (
     const categories = ingredients[i].categories;
     for (let j = 0; j < categories.length; j++) {
       const cat_name = categories[j].name;
+      if (cat_name.includes("TEST")) continue;
       const res_index = filterItems.findIndex((x) => x.name === cat_name);
       filterItems[res_index].count++;
     }
@@ -48,6 +50,7 @@ const updateFilterItemCount = (
 const extractCategoryKeys = (filterItems: IFilterMenuItem[]) => {
   const result: string[] = [];
   for (let i = 0; i < filterItems.length; i++) {
+    if (filterItems[i].name.includes("TEST")) continue;
     if (filterItems[i].checked) result.push(filterItems[i].name);
   }
   return result;
@@ -57,6 +60,7 @@ const stringSearchOnly = (searchString: string, ingedients: IIngredient[]) => {
   const result: IIngredient[] = [];
   const ss_norm = searchString.toLowerCase();
   for (let i = 0; i < ingedients.length; i++) {
+    if (ingedients[i].name.includes("TEST")) continue;
     if (ingedients[i].name.includes(ss_norm)) result.push(ingedients[i]);
   }
   return result;
@@ -112,8 +116,8 @@ const stringAndCategorySearch = (
 };
 
 export const ingredientsStoreFunctions = {
-  initFilterItems,
-  updateFilterItemCount,
+  initCategoryFilterMenuItems,
+  updateCategoryFilterMenuItems,
   extractCategoryKeys,
   stringSearchOnly,
   categorySearchOnly,

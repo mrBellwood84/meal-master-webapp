@@ -1,5 +1,5 @@
-import { Toolbar } from "@mui/material";
-import { ReactNode } from "react";
+import { Divider, Toolbar } from "@mui/material";
+import { Fragment, ReactNode } from "react";
 
 interface IProps {
   children?: ReactNode;
@@ -7,20 +7,20 @@ interface IProps {
 
 export const ToolbarContainer = ({ children }: IProps) => {
   return (
-    <Toolbar
-      variant="dense"
-      disableGutters
-      sx={{
-        display: "flex",
-        alignItems: "center",
+    <Fragment>
+      <Toolbar
+        variant="dense"
+        disableGutters
+        sx={{
+          display: "flex",
+          alignItems: "center",
 
-        mt: 2,
-        mb: 2,
-        pb: 2,
-        borderBottom: "1px solid black",
-      }}
-    >
-      {children}
-    </Toolbar>
+          mt: 2,
+        }}
+      >
+        {children}
+      </Toolbar>
+      <Divider sx={{ mb: 2 }} />
+    </Fragment>
   );
 };
