@@ -115,7 +115,7 @@ const stringAndCategorySearch = (
   return result;
 };
 
-export const ingredientsStoreFunctions = {
+export const ingredientViewStoreFunctions = {
   initCategoryFilterMenuItems,
   updateCategoryFilterMenuItems,
   extractCategoryKeys,

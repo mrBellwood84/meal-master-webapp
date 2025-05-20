@@ -19,7 +19,7 @@ export const _rootAgent = {
     const url = `${baseUrl}${path}`;
 
     const response = await fetch(url, {
-      method: "GET",
+      method: "POST",
       mode: "cors",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(body),

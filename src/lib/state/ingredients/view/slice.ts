@@ -1,7 +1,7 @@
 import { IIngredient } from "@/lib/models/Ingredients/IIngredient";
 import { IFilterMenuItem } from "@/lib/models/shared/IFilterMenuItem";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { ingredientsStoreFunctions } from "./colletion";
+import { ingredientViewStoreFunctions } from "./colletion";
 
 const {
   initCategoryFilterMenuItems,
@@ -9,7 +9,7 @@ const {
   extractCategoryKeys,
   stringSearchOnly,
   stringAndCategorySearch,
-} = ingredientsStoreFunctions;
+} = ingredientViewStoreFunctions;
 
 interface IState {
   all: IIngredient[];

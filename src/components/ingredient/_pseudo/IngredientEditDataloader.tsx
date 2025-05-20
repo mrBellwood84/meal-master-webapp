@@ -16,7 +16,7 @@ export const IngredientEditDataloader = ({ id }: IProps) => {
 
   const apiCalled = useRef<boolean>(false);
 
-  const { setSelected, setCategories, setLoadingSuccess, setLoadFailed } =
+  const { initSelected, initCategories, setLoadingSuccess, setLoadFailed } =
     ingredientEditStateActions;
 
   const handleApiCall = async () => {
@@ -34,13 +34,12 @@ export const IngredientEditDataloader = ({ id }: IProps) => {
     }
 
     if (!ingredientResponse.ok) {
-      const data = ingredientResponse.data as IIngredient;
-      dispatch(setSelected(data));
+      dispatch(setLoadFailed());
       return;
     }
 
-    dispatch(setSelected(ingredientResponse.data as IIngredient));
-    dispatch(setCategories(categoryResponse.data as IIngredientCategory[]));
+    dispatch(initSelected(ingredientResponse.data as IIngredient));
+    dispatch(initCategories(categoryResponse.data as IIngredientCategory[]));
     dispatch(setLoadingSuccess());
   };
 
