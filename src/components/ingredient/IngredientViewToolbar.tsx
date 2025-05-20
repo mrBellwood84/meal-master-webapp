@@ -15,7 +15,7 @@ export const IngredientViewToolbar = () => {
     (s) => s.ingredientView.categoryFilterItems
   );
   const selected = useAppSelector((s) => s.ingredientView.selected);
-  const { handleCategoryFilter } = ingredientViewStateActions;
+  const { handleCategoryFilter, setSelected } = ingredientViewStateActions;
 
   const filterCategoryAction = (item: IFilterMenuItem) => {
     const result = categories.map((x) => {
@@ -32,6 +32,8 @@ export const IngredientViewToolbar = () => {
     dispatch(handleCategoryFilter(result));
   };
 
+  const handleLinkButtonClick = () => dispatch(setSelected(undefined));
+
   return (
     <ToolbarContainer>
       <FilterMenu
@@ -45,6 +47,7 @@ export const IngredientViewToolbar = () => {
         href={`ingredient/edit/${
           selected?.id ?? "00000000-0000-0000-0000-000000000000"
         }`}
+        onClick={handleLinkButtonClick}
         endIcon={<Edit />}
         disabled={!Boolean(selected)}
         sx={{ mr: 2 }}

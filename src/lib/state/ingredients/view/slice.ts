@@ -48,7 +48,7 @@ const slice = createSlice({
       state.loadSuccess = true;
     },
 
-    setSelected: (state, action: PayloadAction<IIngredient>) => {
+    setSelected: (state, action: PayloadAction<IIngredient | undefined>) => {
       state.selected = action.payload;
     },
 

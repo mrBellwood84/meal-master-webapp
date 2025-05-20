@@ -5,6 +5,7 @@ import { ReactNode } from "react";
 interface IProps {
   title: string;
   href: string;
+  onClick?: () => void;
   endIcon?: ReactNode;
   variant?: "contained" | "outlined" | "text";
   color?: "primary" | "secondary" | "success" | "error";
@@ -15,6 +16,7 @@ interface IProps {
 export const ToolbarLinkButton = ({
   title,
   href,
+  onClick,
   endIcon,
   variant,
   color,
@@ -28,6 +30,7 @@ export const ToolbarLinkButton = ({
       size="small"
       LinkComponent={Link}
       href={href}
+      onClick={onClick}
       endIcon={endIcon ?? null}
       disabled={disabled}
       sx={{ ...sx }}
