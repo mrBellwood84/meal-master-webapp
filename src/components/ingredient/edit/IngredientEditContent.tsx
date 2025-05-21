@@ -11,6 +11,8 @@ import { useState } from "react";
 import { IIngredientUpdateCategoryDTO } from "@/lib/models/Ingredients/DTOs/IIngredientUpdateCategoryDTO";
 import { IIngredientCategory } from "@/lib/models/Ingredients/IIngredientCategory";
 import { IIngredient } from "@/lib/models/Ingredients/IIngredient";
+import { IngredientEditMessureTable } from "../_components/IngredientEditMessureTable";
+import { IngredientEditMessureDialogForm } from "../_components/IngredientEditMessureDialogForm";
 
 export const IngredientEditContent = () => {
   // hooks
@@ -142,12 +144,17 @@ export const IngredientEditContent = () => {
       </Box>
 
       <Divider sx={{ mt: 1, mb: 1 }} />
-      <div>måleenheter</div>
+
+      <IngredientEditMessureTable messures={selected!.messures} />
+
       <Divider sx={{ mt: 1, mb: 1 }} />
+
       <SourceText
         text={selected!.nutrientSource.text}
         type={selected!.nutrientSource.type}
       />
+
+      <IngredientEditMessureDialogForm />
     </Box>
   );
 };

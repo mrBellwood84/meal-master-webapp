@@ -1,6 +1,6 @@
 "use client";
 
-import { IFilterMenuItem } from "@/lib/models/shared/IFilterMenuItem";
+import { IFilterMenuItem } from "@/lib/models/_shared/IFilterMenuItem";
 import { Close, FilterList } from "@mui/icons-material";
 import {
   Box,

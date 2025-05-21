@@ -17,3 +17,4 @@ MEALMASTER_API_URL = "http://localhost:5105/api/"
 - **[NextJS](https://nextjs.org/)** : Hovedrammeverk med pakker _**eslint**_ og _**prettier**_
 - **[MaterialUI](https://mui.com/material-ui/)** : React komponenter inkludert ikoner, konfigurert for NextJS.
 - **[Redux](https://redux.js.org/usage/nextjs)** : State management
+- **[React Hook Form](https://react-hook-form.com/get-started)** : Form management

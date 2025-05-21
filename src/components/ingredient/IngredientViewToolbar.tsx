@@ -3,7 +3,7 @@
 import { useAppDispatch, useAppSelector } from "@/lib/state/hooks";
 import { ToolbarContainer } from "../_shared/containers/ToolbarContainer";
 import { FilterMenu } from "../_shared/inputs/FilterMenu";
-import { IFilterMenuItem } from "@/lib/models/shared/IFilterMenuItem";
+import { IFilterMenuItem } from "@/lib/models/_shared/IFilterMenuItem";
 import { Add, Edit } from "@mui/icons-material";
 import { ToolbarLinkButton } from "../_shared/buttons/ToolbarLinkButton";
 import { ingredientViewStateActions } from "@/lib/state/ingredients/view/slice";
@@ -15,7 +15,7 @@ export const IngredientViewToolbar = () => {
     (s) => s.ingredientView.categoryFilterItems
   );
   const selected = useAppSelector((s) => s.ingredientView.selected);
-  const { handleCategoryFilter, setSelected } = ingredientViewStateActions;
+  const { handleCategoryFilter, setLoading } = ingredientViewStateActions;
 
   const filterCategoryAction = (item: IFilterMenuItem) => {
     const result = categories.map((x) => {
@@ -32,7 +32,7 @@ export const IngredientViewToolbar = () => {
     dispatch(handleCategoryFilter(result));
   };
 
-  const handleLinkButtonClick = () => dispatch(setSelected(undefined));
+  const handleLinkButtonClick = () => dispatch(setLoading());
 
   return (
     <ToolbarContainer>

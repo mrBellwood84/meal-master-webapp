@@ -4,9 +4,9 @@ import { useAppSelector } from "@/lib/state/hooks";
 import { MainContainer } from "../_shared/containers/MainContainer";
 import { Box, capitalize, Chip } from "@mui/material";
 import { SourceText } from "../_shared/text/SourceText";
-import { IngredientMessureTable } from "./_components/IngredientMessureTable";
 import { ContentHeader } from "../_shared/text/ContentHeader";
 import { NutrientTable } from "../_shared/nutrient/NutrientTable";
+import { IngredientViewMessureTable } from "./_components/IngredientViewMessureTable";
 
 export const IngredientViewContent = () => {
   const selected = useAppSelector((x) => x.ingredientView.selected);
@@ -32,7 +32,7 @@ export const IngredientViewContent = () => {
         ))}
       </Box>
 
-      <IngredientMessureTable messures={selected.messures} />
+      <IngredientViewMessureTable messures={selected.messures} />
 
       <NutrientTable nutrients={selected.nutrients} />
 

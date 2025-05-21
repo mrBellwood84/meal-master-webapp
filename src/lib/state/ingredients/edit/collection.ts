@@ -1,6 +1,6 @@
 import { IIngredient } from "@/lib/models/Ingredients/IIngredient";
 import { IIngredientCategory } from "@/lib/models/Ingredients/IIngredientCategory";
-import { ICheckboxItem } from "@/lib/models/shared/ICheckboxItem";
+import { ICheckboxItem } from "@/lib/models/_shared/ICheckboxItem";
 
 const initCategoryCheckboxItems = (
   selected: IIngredient,

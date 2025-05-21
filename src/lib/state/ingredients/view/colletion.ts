@@ -1,5 +1,5 @@
 import { IIngredient } from "@/lib/models/Ingredients/IIngredient";
-import { IFilterMenuItem } from "@/lib/models/shared/IFilterMenuItem";
+import { IFilterMenuItem } from "@/lib/models/_shared/IFilterMenuItem";
 
 const initCategoryFilterMenuItems = (ingredients: IIngredient[]) => {
   const result: IFilterMenuItem[] = [];
@@ -115,6 +115,12 @@ const stringAndCategorySearch = (
   return result;
 };
 
+const updateSelected = (selectedId: string, ingredients: IIngredient[]) => {
+  const i = ingredients.findIndex((x) => x.id === selectedId);
+  if (i === -1) return undefined;
+  return ingredients[i];
+};
+
 export const ingredientViewStoreFunctions = {
   initCategoryFilterMenuItems,
   updateCategoryFilterMenuItems,
@@ -122,4 +128,5 @@ export const ingredientViewStoreFunctions = {
   stringSearchOnly,
   categorySearchOnly,
   stringAndCategorySearch,
+  updateSelected,
 };

@@ -4,5 +4,5 @@ export interface IIngredientMessure {
   name: string;
   namePlural?: string;
   unit: string;
-  type: string;
+  type: "vekt" | "volum" | "enhet" | string;
 }

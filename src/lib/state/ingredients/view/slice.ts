@@ -1,5 +1,5 @@
 import { IIngredient } from "@/lib/models/Ingredients/IIngredient";
-import { IFilterMenuItem } from "@/lib/models/shared/IFilterMenuItem";
+import { IFilterMenuItem } from "@/lib/models/_shared/IFilterMenuItem";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { ingredientViewStoreFunctions } from "./colletion";
 
@@ -9,6 +9,7 @@ const {
   extractCategoryKeys,
   stringSearchOnly,
   stringAndCategorySearch,
+  updateSelected,
 } = ingredientViewStoreFunctions;
 
 interface IState {
@@ -43,6 +44,9 @@ const slice = createSlice({
     setAll: (state, action: PayloadAction<IIngredient[]>) => {
       state.all = action.payload;
       state.filtered = stringSearchOnly("", action.payload);
+      state.selected = state.selected
+        ? updateSelected(state.selected.id, action.payload)
+        : undefined;
       state.categoryFilterItems = initCategoryFilterMenuItems(action.payload);
       state.loading = false;
       state.loadSuccess = true;
@@ -80,6 +84,10 @@ const slice = createSlice({
       state.filtered = item_result;
       state.categoryFilterItems = action.payload;
       state.categoryFilterKeys = keys;
+    },
+
+    setLoading: (state) => {
+      state.loading = true;
     },
 
     setLoadFailed: (state) => {
