@@ -1,4 +1,5 @@
 import { IIngredientUpdateCategoryDTO } from "../models/Ingredients/DTOs/IIngredientUpdateCategoryDTO";
+import { IIngredientUpdateMessureDTO } from "../models/Ingredients/DTOs/IIngredientUpdateMessureDTO";
 import { IIngredientUpdateNameDTO } from "../models/Ingredients/DTOs/IIngredientUpdateNameDTO";
 import { IIngredient } from "../models/Ingredients/IIngredient";
 import { IIngredientCategory } from "../models/Ingredients/IIngredientCategory";
@@ -72,5 +73,17 @@ export const ingredientAgent = {
     const { ok, status, statusText } = response;
 
     return { ok, status, statusText };
+  },
+  addMessure: async (dto: IIngredientUpdateMessureDTO) => {
+    console.log("DEV :: Add api cal");
+    console.log(dto);
+  },
+  updateMessure: async (dto: IIngredientUpdateMessureDTO) => {
+    console.log("DEV :: edit api call");
+    console.log(dto);
+  },
+  removeMessure: async (id: string) => {
+    console.log("DEV :: remove api call");
+    console.log(id);
   },
 };

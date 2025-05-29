@@ -13,7 +13,7 @@ interface IState {
   categories: ICheckboxItem[];
 
   messures: IMessure[];
-  ingredientMessureEdit: IIngredientMessure | null;
+  ingredientMessureSelected: IIngredientMessure | null;
   ingredientMessureDialogOpen: boolean;
 
   changed: boolean;
@@ -31,8 +31,8 @@ const initialState: IState = {
   categories: [],
   messures: [],
 
-  ingredientMessureEdit: null,
-  ingredientMessureDialogOpen: true,
+  ingredientMessureSelected: null,
+  ingredientMessureDialogOpen: false,
 
   changed: false,
   loading: true,
@@ -55,8 +55,7 @@ const slice = createSlice({
 
     initMessures: (state, action: PayloadAction<IMessure[]>) => {
       state.messures = action.payload.filter((x) => {
-        if (x.type === "enhet") return x;
-        if (x.name === "desiliter") return x;
+        if (x.type !== "energi") return x;
       });
     },
 
@@ -86,17 +85,17 @@ const slice = createSlice({
       state,
       action: PayloadAction<IIngredientMessure>
     ) => {
-      state.ingredientMessureEdit = action.payload;
+      state.ingredientMessureSelected = action.payload;
       state.ingredientMessureDialogOpen = true;
     },
 
     setMessureDialogCreate: (state) => {
-      state.ingredientMessureEdit = null;
+      state.ingredientMessureSelected = null;
       state.ingredientMessureDialogOpen = true;
     },
 
     closeMessureDialog: (state) => {
-      state.ingredientMessureEdit = null;
+      state.ingredientMessureSelected = null;
       state.ingredientMessureDialogOpen = false;
     },
 
