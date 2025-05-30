@@ -13,8 +13,10 @@ interface IState {
   categories: ICheckboxItem[];
 
   messures: IMessure[];
+
   ingredientMessureSelected: IIngredientMessure | null;
   ingredientMessureDialogOpen: boolean;
+  ingredientMessureDialogLoading: boolean;
 
   changed: boolean;
   loading: boolean;
@@ -33,6 +35,7 @@ const initialState: IState = {
 
   ingredientMessureSelected: null,
   ingredientMessureDialogOpen: false,
+  ingredientMessureDialogLoading: false,
 
   changed: false,
   loading: true,
@@ -81,22 +84,55 @@ const slice = createSlice({
       );
     },
 
+    setMessureAdded: (state, action: PayloadAction<IIngredientMessure>) => {
+      const updatedSelected = state.selected!;
+      const updatedMessures = [...updatedSelected.messures];
+      updatedMessures.push(action.payload);
+      updatedSelected.messures = updatedMessures;
+      state.selected = updatedSelected;
+    },
+
+    setMessureChanged: (state, action: PayloadAction<IIngredientMessure>) => {
+      const index = state.selected!.messures.findIndex(
+        (x) => x.id === action.payload.id
+      );
+      const newMessures = [...state.selected!.messures];
+      newMessures[index] = action.payload;
+      state.selected!.messures = newMessures;
+    },
+
+    setMessureRemoved: (state, action: PayloadAction<string>) => {
+      const updatedSelected = state.selected!;
+      const updatedMessures = [...updatedSelected.messures].filter(
+        (x) => x.id !== action.payload
+      );
+      updatedSelected.messures = updatedMessures;
+      state.selected = updatedSelected;
+    },
+
     setMessureDialogEdit: (
       state,
       action: PayloadAction<IIngredientMessure>
     ) => {
       state.ingredientMessureSelected = action.payload;
       state.ingredientMessureDialogOpen = true;
+      state.ingredientMessureDialogLoading = false;
     },
 
     setMessureDialogCreate: (state) => {
       state.ingredientMessureSelected = null;
       state.ingredientMessureDialogOpen = true;
+      state.ingredientMessureDialogLoading = false;
     },
 
     closeMessureDialog: (state) => {
       state.ingredientMessureSelected = null;
       state.ingredientMessureDialogOpen = false;
+      state.ingredientMessureDialogLoading = false;
+    },
+
+    setMessureDialogLoading: (state, action: PayloadAction<boolean>) => {
+      state.ingredientMessureDialogLoading = action.payload;
     },
 
     setLoadingSuccess: (state) => {

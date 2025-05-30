@@ -3,6 +3,7 @@ import { useAppDispatch, useAppSelector } from "@/lib/state/hooks";
 import { ingredientEditStateActions } from "@/lib/state/ingredients/edit/slice";
 import { Save, Cancel } from "@mui/icons-material";
 import {
+  Box,
   Button,
   capitalize,
   Dialog,
@@ -12,6 +13,7 @@ import {
   FormControl,
   FormHelperText,
   InputLabel,
+  LinearProgress,
   ListSubheader,
   MenuItem,
   Select,
@@ -21,13 +23,22 @@ import {
 import { v4 as uuid } from "uuid";
 import { ChangeEvent, useEffect, useState } from "react";
 import { ingredientAgent } from "@/lib/apiagent/ingredientAgent";
+import { IIngredientMessure } from "@/lib/models/Ingredients/IIngredientMessure";
 
 export const IngredientEditMessureDialogForm = () => {
   // hooks and global state
   const dispatch = useAppDispatch();
-  const { closeMessureDialog } = ingredientEditStateActions;
+  const {
+    closeMessureDialog,
+    setMessureDialogLoading,
+    setMessureAdded,
+    setMessureChanged,
+  } = ingredientEditStateActions;
 
   const ingredientId = useAppSelector((s) => s.ingredientEdit.selected)!.id;
+  const dialogLoading = useAppSelector(
+    (s) => s.ingredientEdit.ingredientMessureDialogLoading
+  );
 
   const selected = useAppSelector(
     (s) => s.ingredientEdit.ingredientMessureSelected
@@ -83,17 +94,26 @@ export const IngredientEditMessureDialogForm = () => {
     setQuantityErrorMSG("");
   };
 
-  const handleCreate = async (dto: IIngredientUpdateMessureDTO) => {
-    await ingredientAgent.addMessure(dto);
+  const handleCreate = async (
+    dto: IIngredientUpdateMessureDTO,
+    stateItem: IIngredientMessure
+  ) => {
+    const response = await ingredientAgent.addMessure(dto);
+    if (response.ok) dispatch(setMessureAdded(stateItem));
+    return response.ok;
   };
 
-  const handleUpdate = async (dto: IIngredientUpdateMessureDTO) => {
-    if (selected?.quantity === dto.quantity) return;
-    await ingredientAgent.updateMessure(dto);
+  const handleUpdate = async (
+    dto: IIngredientUpdateMessureDTO,
+    stateItem: IIngredientMessure
+  ) => {
+    const response = await ingredientAgent.updateMessure(dto);
+    if (response.ok) dispatch(setMessureChanged(stateItem));
+    return response.ok;
   };
 
   const handleOnSubmit = async () => {
-    console.log("DEV :: Set modal loadspinner");
+    dispatch(setMessureDialogLoading(true));
 
     // validate
     let fieldError = false;
@@ -117,11 +137,28 @@ export const IngredientEditMessureDialogForm = () => {
       quantity,
     };
 
-    if (selected) await handleUpdate(dto);
-    else await handleCreate(dto);
+    const stateItem: IIngredientMessure = {
+      id: dto.id,
+      name: name,
+      namePlural: plural,
+      quantity: dto.quantity,
+      unit: unit,
+      type: type,
+    };
 
-    console.log("DEV :: Reload state");
-    console.log("DEV :: Close modal");
+    let responseOk = false;
+
+    if (selected) responseOk = await handleUpdate(dto, stateItem);
+    else responseOk = await handleCreate(dto, stateItem);
+
+    if (responseOk) {
+      handleDialogClose();
+    } else {
+      console.error(
+        "DEV :: IngredientEditMessureDialogForm.handleOnSubmit",
+        "Failed to save messure"
+      );
+    }
   };
 
   useEffect(() => {
@@ -155,82 +192,92 @@ export const IngredientEditMessureDialogForm = () => {
     <Dialog open={dialogOpen} onClose={handleDialogClose}>
       <DialogTitle>{selected ? "Rediger" : "Opprett"}</DialogTitle>
 
-      <DialogContent sx={{ display: "flex", alignItems: "flex-end" }}>
-        <FormControl sx={{ mt: 1, mr: 1 }} error={Boolean(selectErrorMSG)}>
-          <InputLabel>Navn</InputLabel>
-          <Select
-            value={name}
-            onChange={handleSelectChange}
+      <DialogContent sx={{ display: "flex", flexDirection: "column" }}>
+        <Box sx={{ display: "flex", alignItems: "flex-end" }}>
+          <FormControl sx={{ mt: 1, mr: 1 }} error={Boolean(selectErrorMSG)}>
+            <InputLabel>Navn</InputLabel>
+            <Select
+              value={name}
+              onChange={handleSelectChange}
+              variant="standard"
+              size="small"
+              sx={{ width: 120, mr: 1 }}
+              disabled={Boolean(selected) || dialogLoading}
+              MenuProps={{
+                PaperProps: {
+                  sx: { height: 300 },
+                },
+              }}
+            >
+              <ListSubheader>Volum</ListSubheader>
+              {volumeMessures.map((x) => (
+                <MenuItem key={x.id} value={x.name}>
+                  {capitalize(x.name)}
+                </MenuItem>
+              ))}
+              <ListSubheader>Enhet</ListSubheader>
+              {unitMessures.map((x) => (
+                <MenuItem key={x.id} value={x.name}>
+                  {capitalize(x.name)}
+                </MenuItem>
+              ))}
+            </Select>
+            {Boolean(selectErrorMSG) && (
+              <FormHelperText>{selectErrorMSG}</FormHelperText>
+            )}
+          </FormControl>
+
+          <TextField
+            value={plural ? capitalize(plural) : "-"}
             variant="standard"
             size="small"
-            sx={{ width: 120, mr: 1, ml: 1 }}
-            disabled={Boolean(selected)}
-            MenuProps={{
-              PaperProps: {
-                sx: { height: 300 },
-              },
-            }}
-          >
-            <ListSubheader>Volum</ListSubheader>
-            {volumeMessures.map((x) => (
-              <MenuItem key={x.id} value={x.name}>
-                {capitalize(x.name)}
-              </MenuItem>
-            ))}
-            <ListSubheader>Enhet</ListSubheader>
-            {unitMessures.map((x) => (
-              <MenuItem key={x.id} value={x.name}>
-                {capitalize(x.name)}
-              </MenuItem>
-            ))}
-          </Select>
-          {Boolean(selectErrorMSG) && (
-            <FormHelperText>{selectErrorMSG}</FormHelperText>
-          )}
-        </FormControl>
+            label="(Flertall)"
+            sx={{ width: 120 }}
+            disabled
+          />
 
-        <TextField
-          value={plural ? capitalize(plural) : "-"}
-          variant="standard"
-          size="small"
-          label="(Flertall)"
-          sx={{ width: 120 }}
-          disabled
-        />
+          <TextField
+            value={unit}
+            variant="standard"
+            size="small"
+            label="Måleenhet"
+            sx={{ width: 60, ml: 1, mr: 1 }}
+            disabled
+          />
 
-        <TextField
-          value={unit}
-          variant="standard"
-          size="small"
-          label="Måleenhet"
-          sx={{ width: 60, ml: 1, mr: 1 }}
-          disabled
-        />
+          <TextField
+            value={quantity}
+            onChange={handleQuantityChange}
+            type="number"
+            variant="standard"
+            size="small"
+            label="I gram"
+            error={Boolean(quantityErrorMSG)}
+            helperText={quantityErrorMSG}
+            sx={{ ml: 1, mr: 1 }}
+            disabled={dialogLoading}
+          />
 
-        <TextField
-          value={quantity}
-          onChange={handleQuantityChange}
-          type="number"
-          variant="standard"
-          size="small"
-          label="I gram"
-          error={Boolean(quantityErrorMSG)}
-          helperText={quantityErrorMSG}
-          sx={{ ml: 1, mr: 1 }}
-        />
-
-        <TextField
-          value={capitalize(type)}
-          variant="standard"
-          size="small"
-          label="Type"
-          sx={{ width: 60, ml: 1 }}
-          disabled
-        />
+          <TextField
+            value={capitalize(type)}
+            variant="standard"
+            size="small"
+            label="Type"
+            sx={{ width: 60, ml: 1 }}
+            disabled
+          />
+        </Box>
+        {dialogLoading && <LinearProgress sx={{ width: "100%", mt: 1 }} />}
       </DialogContent>
 
       <DialogActions>
-        <Button onClick={handleOnSubmit} color="success" startIcon={<Save />}>
+        <Button
+          onClick={handleOnSubmit}
+          color="success"
+          startIcon={<Save />}
+          disabled={dialogLoading}
+          variant="contained"
+        >
           Lagre
         </Button>
         <Button
@@ -238,6 +285,7 @@ export const IngredientEditMessureDialogForm = () => {
           color="error"
           endIcon={<Cancel />}
           variant="contained"
+          disabled={dialogLoading}
         >
           Avbryt
         </Button>

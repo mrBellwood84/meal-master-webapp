@@ -1,3 +1,4 @@
+import { ingredientAgent } from "@/lib/apiagent/ingredientAgent";
 import { IIngredientMessure } from "@/lib/models/Ingredients/IIngredientMessure";
 import { useAppDispatch } from "@/lib/state/hooks";
 import { ingredientEditStateActions } from "@/lib/state/ingredients/edit/slice";
@@ -32,6 +33,8 @@ const MessureRow = ({ messure, onEditClick, onRemoveClick }: IRowProps) => {
   const handleSetRemoveConfirm = () => setRemoveConfirm(true);
   const handleCancelDelete = () => setRemoveConfirm(false);
 
+  const handleDelete = () => onRemoveClick(messure.id);
+
   return (
     <TableRow hover>
       <TableCell>{capitalize(messure.name)}</TableCell>
@@ -48,7 +51,7 @@ const MessureRow = ({ messure, onEditClick, onRemoveClick }: IRowProps) => {
               variant="contained"
               color="success"
               startIcon={<Done />}
-              onClick={() => onRemoveClick(messure.id)}
+              onClick={handleDelete}
             >
               Bekreft
             </Button>
@@ -92,11 +95,13 @@ export const IngredientEditMessureTable = ({ messures }: ITableProps) => {
     ingredientEditStateActions;
 
   const handleCreateClick = () => dispatch(setMessureDialogCreate());
+
   const handleEditClick = (ingredientMessure: IIngredientMessure) =>
     dispatch(setMessureDialogEdit(ingredientMessure));
+
   const handleDeleteClick = (ingredientMessureId: string) => {
-    console.log("not implemented");
-    console.log(ingredientMessureId);
+    ingredientAgent.removeMessure(ingredientMessureId);
+    dispatch(ingredientEditStateActions.setMessureRemoved(ingredientMessureId));
   };
 
   return (

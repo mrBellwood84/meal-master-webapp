@@ -55,7 +55,6 @@ export const ingredientAgent = {
     const domain = `${path}/update/name`;
     const response = await _rootAgent.put(domain, dto);
     const { ok, status, statusText } = response;
-
     return { ok, status, statusText };
   },
 
@@ -63,7 +62,6 @@ export const ingredientAgent = {
     const domain = `${path}/category`;
     const response = await _rootAgent.post(domain, dto);
     const { ok, status, statusText } = response;
-
     return { ok, status, statusText };
   },
 
@@ -71,19 +69,26 @@ export const ingredientAgent = {
     const domain = `${path}/category`;
     const response = await _rootAgent.delete(domain, dto);
     const { ok, status, statusText } = response;
-
     return { ok, status, statusText };
   },
   addMessure: async (dto: IIngredientUpdateMessureDTO) => {
-    console.log("DEV :: Add api cal");
-    console.log(dto);
+    const domain = `${path}/messure/`;
+    const response = await _rootAgent.post(domain, dto);
+    const { ok, status, statusText } = response;
+    return { ok, status, statusText };
   },
   updateMessure: async (dto: IIngredientUpdateMessureDTO) => {
-    console.log("DEV :: edit api call");
-    console.log(dto);
+    const domain = `${path}/messure/`;
+    const response = await _rootAgent.put(domain, dto);
+    console.log("DEV :: ingredientAgent.updateMessure", response);
+    const { ok, status, statusText } = response;
+    return { ok, status, statusText };
   },
   removeMessure: async (id: string) => {
-    console.log("DEV :: remove api call");
-    console.log(id);
+    const domain = `${path}/messure/`;
+    const body = { id };
+    const response = await _rootAgent.delete(domain, body);
+    const { ok, status, statusText } = response;
+    return { ok, status, statusText };
   },
 };
