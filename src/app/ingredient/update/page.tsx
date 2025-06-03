@@ -1,8 +1,8 @@
 import { redirect } from "next/navigation";
 
-const EditRedirectPage = () => {
+const IngredientUpdateRedirectPage = () => {
   redirect("/ingredient");
   return null;
 };
 
-export default EditRedirectPage;
+export default IngredientUpdateRedirectPage;

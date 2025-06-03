@@ -1,6 +1,5 @@
 import { IIngredientUpdateMessureDTO } from "@/lib/models/Ingredients/DTOs/IIngredientUpdateMessureDTO";
 import { useAppDispatch, useAppSelector } from "@/lib/state/hooks";
-import { ingredientEditStateActions } from "@/lib/state/ingredients/edit/slice";
 import { Save, Cancel } from "@mui/icons-material";
 import {
   Box,
@@ -24,30 +23,30 @@ import { v4 as uuid } from "uuid";
 import { ChangeEvent, useEffect, useState } from "react";
 import { ingredientAgent } from "@/lib/apiagent/ingredientAgent";
 import { IIngredientMessure } from "@/lib/models/Ingredients/IIngredientMessure";
+import { ingredientUpdateStateActions } from "@/lib/state/ingredients/update/slice";
 
 export const IngredientEditMessureDialogForm = () => {
   // hooks and global state
   const dispatch = useAppDispatch();
   const {
-    closeMessureDialog,
+    updateIngredientMessure,
     setMessureDialogLoading,
-    setMessureAdded,
-    setMessureChanged,
-  } = ingredientEditStateActions;
+    closeMessureDialog,
+  } = ingredientUpdateStateActions;
 
-  const ingredientId = useAppSelector((s) => s.ingredientEdit.selected)!.id;
+  const ingredientId = useAppSelector((s) => s.ingredientUpdate.selected)!.id;
   const dialogLoading = useAppSelector(
-    (s) => s.ingredientEdit.ingredientMessureDialogLoading
+    (s) => s.ingredientUpdate.ingredientMessureDialogLoading
   );
 
   const selected = useAppSelector(
-    (s) => s.ingredientEdit.ingredientMessureSelected
+    (s) => s.ingredientUpdate.ingredientMessureSelected
   );
   const dialogOpen = useAppSelector(
-    (s) => s.ingredientEdit.ingredientMessureDialogOpen
+    (s) => s.ingredientUpdate.ingredientMessureDialogOpen
   );
 
-  const messures = useAppSelector((s) => s.ingredientEdit.messures);
+  const messures = useAppSelector((s) => s.ingredientUpdate.messures);
   const volumeMessures = messures.filter((x) => x.type === "volum");
   const unitMessures = messures.filter((x) => x.type === "enhet");
 
@@ -99,7 +98,7 @@ export const IngredientEditMessureDialogForm = () => {
     stateItem: IIngredientMessure
   ) => {
     const response = await ingredientAgent.addMessure(dto);
-    if (response.ok) dispatch(setMessureAdded(stateItem));
+    if (response.ok) dispatch(updateIngredientMessure(stateItem));
     return response.ok;
   };
 
@@ -108,7 +107,7 @@ export const IngredientEditMessureDialogForm = () => {
     stateItem: IIngredientMessure
   ) => {
     const response = await ingredientAgent.updateMessure(dto);
-    if (response.ok) dispatch(setMessureChanged(stateItem));
+    if (response.ok) dispatch(updateIngredientMessure(stateItem));
     return response.ok;
   };
 

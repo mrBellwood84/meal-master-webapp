@@ -1,7 +1,7 @@
 import { ingredientAgent } from "@/lib/apiagent/ingredientAgent";
 import { IIngredientMessure } from "@/lib/models/Ingredients/IIngredientMessure";
 import { useAppDispatch } from "@/lib/state/hooks";
-import { ingredientEditStateActions } from "@/lib/state/ingredients/edit/slice";
+import { ingredientUpdateStateActions } from "@/lib/state/ingredients/update/slice";
 import { Add, Cancel, Delete, Done, Edit } from "@mui/icons-material";
 import {
   Button,
@@ -91,17 +91,20 @@ const MessureRow = ({ messure, onEditClick, onRemoveClick }: IRowProps) => {
 
 export const IngredientEditMessureTable = ({ messures }: ITableProps) => {
   const dispatch = useAppDispatch();
-  const { setMessureDialogCreate, setMessureDialogEdit } =
-    ingredientEditStateActions;
+  const {
+    removeIngredientMessure,
+    openMessureDialogCreate,
+    openMessureDialogUpdate,
+  } = ingredientUpdateStateActions;
 
-  const handleCreateClick = () => dispatch(setMessureDialogCreate());
+  const handleCreateClick = () => dispatch(openMessureDialogCreate());
 
   const handleEditClick = (ingredientMessure: IIngredientMessure) =>
-    dispatch(setMessureDialogEdit(ingredientMessure));
+    dispatch(openMessureDialogUpdate(ingredientMessure));
 
   const handleDeleteClick = (ingredientMessureId: string) => {
     ingredientAgent.removeMessure(ingredientMessureId);
-    dispatch(ingredientEditStateActions.setMessureRemoved(ingredientMessureId));
+    dispatch(removeIngredientMessure(ingredientMessureId));
   };
 
   return (

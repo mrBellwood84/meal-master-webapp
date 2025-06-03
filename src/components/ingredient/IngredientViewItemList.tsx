@@ -9,23 +9,23 @@ import { ListItem, Typography } from "@mui/material";
 import { IIngredient } from "@/lib/models/Ingredients/IIngredient";
 import { ChangeEvent } from "react";
 import { SearchTextField } from "../_shared/inputs/SearchTextField";
-import { ingredientViewStateActions } from "@/lib/state/ingredients/view/slice";
+import { ingredientReadStateActions } from "@/lib/state/ingredients/read/slice";
 
 export const IngredientViewItemList = () => {
   const dispatch = useAppDispatch();
 
   // data state
-  const filteredData = useAppSelector((s) => s.ingredientView.filtered);
+  const filteredData = useAppSelector((s) => s.ingredientRead.filtered);
 
   // search states
-  const searchfieldValue = useAppSelector((s) => s.ingredientView.searchString);
+  const searchfieldValue = useAppSelector((s) => s.ingredientRead.searchString);
 
   // loading state
-  const loading = useAppSelector((s) => s.ingredientView.loading);
-  const loadingSuccess = useAppSelector((s) => s.ingredientView.loadSuccess);
+  const loading = useAppSelector((s) => s.ingredientRead.loading);
+  const loadingSuccess = useAppSelector((s) => s.ingredientRead.loadSuccess);
 
   // actions
-  const { setSelected, handleSearchString } = ingredientViewStateActions;
+  const { setSelected, handleStringSearch } = ingredientReadStateActions;
 
   // handle ingredient button click
   const setSelectedIngredient = (item: IIngredient) => {
@@ -34,9 +34,9 @@ export const IngredientViewItemList = () => {
 
   // handle search actions
   const handleSearchFieldChange = (e: ChangeEvent<HTMLInputElement>) =>
-    dispatch(handleSearchString(e.target.value));
+    dispatch(handleStringSearch(e.target.value));
 
-  const handleSearchClickClear = () => dispatch(handleSearchString(""));
+  const handleSearchClickClear = () => dispatch(handleStringSearch(""));
 
   if (loading)
     return (
@@ -69,13 +69,14 @@ export const IngredientViewItemList = () => {
             handleClearClick={handleSearchClickClear}
           />
         </ListItem>
-        {filteredData.map((x) => (
-          <AsideListItemButton
-            key={x.id}
-            label={x.name}
-            onClick={() => setSelectedIngredient(x)}
-          />
-        ))}
+        {filteredData &&
+          filteredData.map((x) => (
+            <AsideListItemButton
+              key={x.id}
+              label={x.name}
+              onClick={() => setSelectedIngredient(x)}
+            />
+          ))}
       </AsideItemButtonList>
     </AsideContainer>
   );

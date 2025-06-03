@@ -9,7 +9,7 @@ import { NutrientTable } from "../_shared/nutrient/NutrientTable";
 import { IngredientViewMessureTable } from "./_components/IngredientViewMessureTable";
 
 export const IngredientViewContent = () => {
-  const selected = useAppSelector((x) => x.ingredientView.selected);
+  const selected = useAppSelector((x) => x.ingredientRead.selected);
 
   if (!selected)
     return (

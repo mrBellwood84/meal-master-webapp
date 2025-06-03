@@ -9,7 +9,7 @@ interface IProps {
   params: Promise<{ ingredient: string }>;
 }
 
-const IngredientEditPage = ({ params }: IProps) => {
+const IngredientUpdatePage = ({ params }: IProps) => {
   const [id, setId] = useState<string>();
 
   useEffect(() => {
@@ -29,4 +29,4 @@ const IngredientEditPage = ({ params }: IProps) => {
   );
 };
 
-export default IngredientEditPage;
+export default IngredientUpdatePage;

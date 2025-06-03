@@ -8,8 +8,8 @@ import { Undo } from "@mui/icons-material";
 import { Box, capitalize } from "@mui/material";
 
 export const IngredientEditToolbar = () => {
-  const selected = useAppSelector((s) => s.ingredientEdit.original);
-  const changed = useAppSelector((s) => s.ingredientEdit.changed);
+  const selected = useAppSelector((s) => s.ingredientUpdate.selected);
+  const changed = useAppSelector((s) => s.ingredientUpdate.changed);
   const handleUndoChanges = () => undefined;
 
   return (

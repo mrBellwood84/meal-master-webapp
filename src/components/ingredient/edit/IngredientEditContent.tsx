@@ -4,7 +4,6 @@ import { Box, Divider } from "@mui/material";
 import { ContentErrorText } from "@/components/_shared/text/ContentError";
 import { IIngredientUpdateNameDTO } from "@/lib/models/Ingredients/DTOs/IIngredientUpdateNameDTO";
 import { ingredientAgent } from "@/lib/apiagent/ingredientAgent";
-import { ingredientEditStateActions } from "@/lib/state/ingredients/edit/slice";
 import { SourceText } from "@/components/_shared/text/SourceText";
 import { AppCheckbox } from "@/components/_shared/form/AppCheckbox";
 import { useState } from "react";
@@ -13,20 +12,24 @@ import { IIngredientCategory } from "@/lib/models/Ingredients/IIngredientCategor
 import { IIngredient } from "@/lib/models/Ingredients/IIngredient";
 import { IngredientEditMessureTable } from "../_components/IngredientEditMessureTable";
 import { IngredientEditMessureDialogForm } from "../_components/IngredientEditMessureDialogForm";
+import { ingredientUpdateStateActions } from "@/lib/state/ingredients/update/slice";
+import { ICheckboxItem } from "@/lib/models/_shared/ICheckboxItem";
 
 export const IngredientEditContent = () => {
   // hooks
   const dispatch = useAppDispatch();
 
   // actions
-  const { setSelected, setCategoryCheckboxLoading, setCategoryChecked } =
-    ingredientEditStateActions;
+  const { updateSelected, updateCategoryCheckbox, setCategoryCheckboxLoading } =
+    ingredientUpdateStateActions;
 
   // states
-  const selected = useAppSelector((s) => s.ingredientEdit.selected);
-  const categories = useAppSelector((s) => s.ingredientEdit.categories);
-  const loading = useAppSelector((s) => s.ingredientEdit.loading);
-  const loadingFailed = !useAppSelector((s) => s.ingredientEdit.loadingSuccess);
+  const selected = useAppSelector((s) => s.ingredientUpdate.selected);
+  const categories = useAppSelector((s) => s.ingredientUpdate.categories);
+  const loading = useAppSelector((s) => s.ingredientUpdate.loading);
+  const loadingFailed = !useAppSelector(
+    (s) => s.ingredientUpdate.loadingSuccess
+  );
 
   const [nameLoading, setNameLoading] = useState<boolean>(false);
   const [pluralLoading, setPluralLoading] = useState<boolean>(false);
@@ -39,9 +42,11 @@ export const IngredientEditContent = () => {
       name,
       namePlural: selected!.namePlural ?? "",
     };
+
     const response = await ingredientAgent.updateName(dto);
-    if (response.ok) dispatch(setSelected({ ...selected!, name }));
+    if (response.ok) dispatch(updateSelected({ ...selected!, name }));
     if (!response.ok) console.error("DEV :: Error handling not added");
+
     setNameLoading(false);
   };
 
@@ -53,7 +58,7 @@ export const IngredientEditContent = () => {
       namePlural,
     };
     const response = await ingredientAgent.updateName(dto);
-    if (response.ok) dispatch(setSelected({ ...selected!, namePlural }));
+    if (response.ok) dispatch(updateSelected({ ...selected!, namePlural }));
     if (!response.ok) console.error("DEV :: Error handling not added");
     setPluralLoading(false);
   };
@@ -62,7 +67,7 @@ export const IngredientEditContent = () => {
     dispatch(setCategoryCheckboxLoading(categoryId));
 
     const updatedSelected = { ...selected };
-    const item = categories.find((x) => x.id === categoryId);
+    const item = categories.find((x) => x.id === categoryId)!;
     const checked = item!.checked;
 
     const dto: IIngredientUpdateCategoryDTO = {
@@ -88,18 +93,24 @@ export const IngredientEditContent = () => {
       updatedSelected.categories = updatedCategories;
     }
 
-    dispatch(setSelected(updatedSelected as IIngredient));
-    dispatch(setCategoryChecked({ id: item!.id, checked }));
-  };
+    const updatedCheckbox: ICheckboxItem = {
+      ...item,
+      checked: !checked,
+      loading: false,
+    };
 
-  if (loading)
-    return (
-      <Box>
-        <OneFieldForm loading />
-        <OneFieldForm loading />
-        <Divider sx={{ mt: 1, mb: 2 }} />
-      </Box>
-    );
+    dispatch(updateSelected(updatedSelected as IIngredient));
+    dispatch(updateCategoryCheckbox(updatedCheckbox));
+
+    if (loading)
+      return (
+        <Box>
+          <OneFieldForm loading />
+          <OneFieldForm loading />
+          <Divider sx={{ mt: 1, mb: 2 }} />
+        </Box>
+      );
+  };
 
   if (loadingFailed)
     return (
@@ -110,18 +121,20 @@ export const IngredientEditContent = () => {
 
   return (
     <Box>
-      <OneFieldForm
-        label="Navn"
-        value={selected!.name}
-        loading={nameLoading}
-        handleSave={handleNameUpdate}
-      />
-      <OneFieldForm
-        label="Flertall"
-        value={selected!.namePlural}
-        loading={pluralLoading}
-        handleSave={handleNamePluralUpdate}
-      />
+      <Box>
+        <OneFieldForm
+          label="Navn"
+          value={selected!.name}
+          loading={nameLoading}
+          handleSave={handleNameUpdate}
+        />
+        <OneFieldForm
+          label="Flertall"
+          value={selected!.namePlural}
+          loading={pluralLoading}
+          handleSave={handleNamePluralUpdate}
+        />
+      </Box>
 
       <Divider sx={{ mt: 1, mb: 1 }} />
 

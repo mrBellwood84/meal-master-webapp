@@ -6,16 +6,16 @@ import { FilterMenu } from "../_shared/inputs/FilterMenu";
 import { IFilterMenuItem } from "@/lib/models/_shared/IFilterMenuItem";
 import { Add, Edit } from "@mui/icons-material";
 import { ToolbarLinkButton } from "../_shared/buttons/ToolbarLinkButton";
-import { ingredientViewStateActions } from "@/lib/state/ingredients/view/slice";
+import { ingredientReadStateActions } from "@/lib/state/ingredients/read/slice";
 
 export const IngredientViewToolbar = () => {
   const dispatch = useAppDispatch();
 
   const categories = useAppSelector(
-    (s) => s.ingredientView.categoryFilterItems
+    (s) => s.ingredientRead.categoryFilterItems
   );
-  const selected = useAppSelector((s) => s.ingredientView.selected);
-  const { handleCategoryFilter, setLoading } = ingredientViewStateActions;
+  const selected = useAppSelector((s) => s.ingredientRead.selected);
+  const { handleCategoryFilter, setLoading } = ingredientReadStateActions;
 
   const filterCategoryAction = (item: IFilterMenuItem) => {
     const result = categories.map((x) => {
@@ -44,7 +44,7 @@ export const IngredientViewToolbar = () => {
       />
       <ToolbarLinkButton
         title="Rediger"
-        href={`ingredient/edit/${
+        href={`ingredient/update/${
           selected?.id ?? "00000000-0000-0000-0000-000000000000"
         }`}
         onClick={handleLinkButtonClick}
@@ -54,7 +54,7 @@ export const IngredientViewToolbar = () => {
       />
       <ToolbarLinkButton
         title="Opprett"
-        href={"ingredient/add"}
+        href={"ingredient/create"}
         endIcon={<Add />}
         variant="outlined"
         color="success"

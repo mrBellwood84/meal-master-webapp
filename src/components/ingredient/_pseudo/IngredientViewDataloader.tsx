@@ -3,7 +3,7 @@
 import { ingredientAgent } from "@/lib/apiagent/ingredientAgent";
 import { IIngredient } from "@/lib/models/Ingredients/IIngredient";
 import { useAppDispatch } from "@/lib/state/hooks";
-import { ingredientViewStateActions } from "@/lib/state/ingredients/view/slice";
+import { ingredientReadStateActions } from "@/lib/state/ingredients/read/slice";
 import { useEffect, useRef } from "react";
 
 export const IngredientViewDataloader = () => {
@@ -14,7 +14,7 @@ export const IngredientViewDataloader = () => {
   const apiCalled = useRef<boolean>(false);
 
   // state actions
-  const { setAll, setLoadFailed } = ingredientViewStateActions;
+  const { loadData, setLoadingFailed } = ingredientReadStateActions;
 
   // method for api loading
   const handleApiCall = async () => {
@@ -22,11 +22,11 @@ export const IngredientViewDataloader = () => {
 
     if (response.ok) {
       const data = response.data as IIngredient[];
-      dispatch(setAll(data));
+      dispatch(loadData(data));
       apiCalled.current = true;
       return;
     }
-    dispatch(setLoadFailed());
+    dispatch(setLoadingFailed());
     apiCalled.current = true;
   };
 

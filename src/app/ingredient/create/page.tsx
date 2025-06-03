@@ -1,7 +1,7 @@
 import { IngredientAddToolbar } from "@/components/ingredient/add/IngredientAddToolbar";
 import { Fragment } from "react";
 
-const IngredientAddPage = () => {
+const IngredientCreatePage = () => {
   return (
     <Fragment>
       <IngredientAddToolbar />
@@ -17,4 +17,4 @@ const IngredientAddPage = () => {
   );
 };
 
-export default IngredientAddPage;
+export default IngredientCreatePage;

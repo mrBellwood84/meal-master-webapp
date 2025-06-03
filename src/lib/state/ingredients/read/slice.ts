@@ -1,24 +1,23 @@
-import { IIngredient } from "@/lib/models/Ingredients/IIngredient";
 import { IFilterMenuItem } from "@/lib/models/_shared/IFilterMenuItem";
+import { IIngredient } from "@/lib/models/Ingredients/IIngredient";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { ingredientViewStoreFunctions } from "./colletion";
+import { ingredientReadStateFunctions } from "./collection";
 
 const {
-  initCategoryFilterMenuItems,
-  updateCategoryFilterMenuItems,
-  extractCategoryKeys,
+  initializeCategoryFilter,
+  updateSelected,
+  updateCategoryFilter,
   stringSearchOnly,
   stringAndCategorySearch,
-  updateSelected,
-} = ingredientViewStoreFunctions;
+  extractCategoryKeys,
+} = ingredientReadStateFunctions;
 
 interface IState {
-  all: IIngredient[];
-  filtered: IIngredient[];
+  all?: IIngredient[];
+  filtered?: IIngredient[];
   selected?: IIngredient;
 
   searchString: string;
-
   categoryFilterItems: IFilterMenuItem[];
   categoryFilterKeys: string[];
 
@@ -27,8 +26,6 @@ interface IState {
 }
 
 const initialState: IState = {
-  all: [],
-  filtered: [],
   searchString: "",
   categoryFilterItems: [],
   categoryFilterKeys: [],
@@ -41,13 +38,13 @@ const slice = createSlice({
   name: "ingredientView",
   initialState,
   reducers: {
-    setAll: (state, action: PayloadAction<IIngredient[]>) => {
+    loadData: (state, action: PayloadAction<IIngredient[]>) => {
       state.all = action.payload;
       state.filtered = stringSearchOnly("", action.payload);
       state.selected = state.selected
         ? updateSelected(state.selected.id, action.payload)
         : undefined;
-      state.categoryFilterItems = initCategoryFilterMenuItems(action.payload);
+      state.categoryFilterItems = initializeCategoryFilter(action.payload);
       state.loading = false;
       state.loadSuccess = true;
     },
@@ -56,32 +53,32 @@ const slice = createSlice({
       state.selected = action.payload;
     },
 
-    handleSearchString: (state, action: PayloadAction<string>) => {
-      const item_result = stringAndCategorySearch(
+    handleStringSearch: (state, action: PayloadAction<string>) => {
+      const itemResult = stringAndCategorySearch(
         action.payload,
-        state.all,
+        state.all ?? [],
         state.categoryFilterKeys
       );
-      const category_filter = updateCategoryFilterMenuItems(
-        item_result,
+      const filterResult = updateCategoryFilter(
+        itemResult,
         state.categoryFilterItems
       );
 
-      state.filtered = item_result;
-      state.categoryFilterItems = category_filter;
+      state.filtered = itemResult;
+      state.categoryFilterItems = filterResult;
       state.searchString = action.payload;
     },
 
     handleCategoryFilter: (state, action: PayloadAction<IFilterMenuItem[]>) => {
       const keys = extractCategoryKeys(action.payload);
 
-      const item_result = stringAndCategorySearch(
+      const itemResult = stringAndCategorySearch(
         state.searchString,
-        state.all,
+        state.all ?? [],
         keys
       );
 
-      state.filtered = item_result;
+      state.filtered = itemResult;
       state.categoryFilterItems = action.payload;
       state.categoryFilterKeys = keys;
     },
@@ -90,12 +87,17 @@ const slice = createSlice({
       state.loading = true;
     },
 
-    setLoadFailed: (state) => {
+    setLoadSuccess: (state) => {
+      state.loading = false;
+      state.loadSuccess = true;
+    },
+
+    setLoadingFailed: (state) => {
       state.loading = false;
       state.loadSuccess = false;
     },
   },
 });
 
-export const ingredientViewStateActions = slice.actions;
-export const ingredientViewReducer = slice.reducer;
+export const ingredientReadStateActions = slice.actions;
+export const ingredientReadStateReducer = slice.reducer;

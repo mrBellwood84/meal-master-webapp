@@ -5,7 +5,7 @@ import { messureAgent } from "@/lib/apiagent/messureAgent";
 import { IIngredient } from "@/lib/models/Ingredients/IIngredient";
 import { IIngredientCategory } from "@/lib/models/Ingredients/IIngredientCategory";
 import { IMessure } from "@/lib/models/messure/IMessure";
-import { ingredientEditStateActions } from "@/lib/state/ingredients/edit/slice";
+import { ingredientUpdateStateActions } from "@/lib/state/ingredients/update/slice";
 import { useEffect, useRef } from "react";
 import { useDispatch } from "react-redux";
 
@@ -18,13 +18,7 @@ export const IngredientEditDataloader = ({ id }: IProps) => {
 
   const apiCalled = useRef<boolean>(false);
 
-  const {
-    initSelected,
-    initCategories,
-    initMessures,
-    setLoadingSuccess,
-    setLoadFailed,
-  } = ingredientEditStateActions;
+  const { loadData, setLoadFailed } = ingredientUpdateStateActions;
 
   const handleApiCall = async () => {
     const ingredientResponse = await ingredientAgent.getSingle(id);
@@ -45,10 +39,13 @@ export const IngredientEditDataloader = ({ id }: IProps) => {
       return;
     }
 
-    dispatch(initSelected(ingredientResponse.data as IIngredient));
-    dispatch(initCategories(categoryResponse.data as IIngredientCategory[]));
-    dispatch(initMessures(messureResponse.data as IMessure[]));
-    dispatch(setLoadingSuccess());
+    dispatch(
+      loadData({
+        ingredient: ingredientResponse.data as IIngredient,
+        categories: categoryResponse.data as IIngredientCategory[],
+        messures: messureResponse.data as IMessure[],
+      })
+    );
   };
 
   useEffect(() => {
