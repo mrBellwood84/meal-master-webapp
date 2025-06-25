@@ -1,12 +1,7 @@
 import { Cancel, Edit, Save } from "@mui/icons-material";
-import {
-  Box,
-  IconButton,
-  Skeleton,
-  TextField,
-  Typography,
-} from "@mui/material";
+import { Box, IconButton, TextField } from "@mui/material";
 import { ChangeEvent, useState } from "react";
+import { InlineLoader } from "../loader/InlineLoader";
 
 interface IProps {
   label?: string;
@@ -22,7 +17,7 @@ export const OneFieldForm = ({
   handleSave,
 }: IProps) => {
   const [editMode, setEditMode] = useState<boolean>(false);
-  const [fieldValue, setFieldValue] = useState<string>();
+  const [fieldValue, setFieldValue] = useState<string>(value ?? "-");
 
   const handleSetEditMode = () => {
     setFieldValue(value ?? "");
@@ -36,66 +31,98 @@ export const OneFieldForm = ({
 
   const handleSaveClick = () => {
     setEditMode(false);
-    if (handleSave) handleSave(fieldValue ?? "");
+    if (handleSave) handleSave(fieldValue ?? "-");
   };
 
   const handleTextfieldCancel = () => {
     setEditMode(false);
-    setFieldValue(value ?? "");
+    setFieldValue(value ?? "-");
   };
 
-  if (loading)
-    return (
-      <Box
-        sx={{ display: "flex", alignItems: "center", mt: 1, mb: 1, height: 55 }}
-      >
-        <Skeleton variant="circular" width={35} height={35} />
-        <Skeleton
-          variant="rectangular"
-          height={45}
-          width={250}
-          sx={{ ml: 2 }}
-        />
-      </Box>
-    );
-
-  if (editMode)
-    return (
-      <Box
-        sx={{
-          mt: 1,
-          mb: 1,
-          display: "flex",
-          alignItems: "center",
-          height: 55,
-        }}
-      >
-        <IconButton color="error" onClick={handleTextfieldCancel}>
-          <Cancel />
-        </IconButton>
-        <TextField
-          variant="standard"
-          label={label}
-          value={fieldValue}
-          onChange={handleTextfieldOnChange}
-          sx={{ ml: 2 }}
-        />
-        <IconButton color="success" onClick={handleSaveClick}>
-          <Save />
-        </IconButton>
-      </Box>
-    );
-
   return (
-    <Box
-      sx={{ display: "flex", alignItems: "center", mt: 1, mb: 1, height: 55 }}
-    >
-      <IconButton color="secondary" onClick={handleSetEditMode}>
-        <Edit />
-      </IconButton>
-      <Typography variant="h5" color="primaryText" sx={{ ml: 1 }}>
-        <b>{label}:</b> {value}
-      </Typography>
+    <Box sx={{ display: "flex", alignItems: "flex-end", mt: 1, mb: 1 }}>
+      <TextField
+        variant="standard"
+        label={label}
+        value={fieldValue}
+        onChange={handleTextfieldOnChange}
+        disabled={!editMode || loading}
+      />
+      {!editMode && !loading && (
+        <IconButton color="success" onClick={handleSetEditMode}>
+          <Edit />
+        </IconButton>
+      )}
+      {editMode && !loading && (
+        <>
+          <IconButton color="error" onClick={handleTextfieldCancel}>
+            <Cancel />
+          </IconButton>
+          <IconButton color="success" onClick={handleSaveClick}>
+            <Save />
+          </IconButton>
+        </>
+      )}
+      {loading && (
+        <Box sx={{ ml: 2 }}>
+          <InlineLoader size={20} thickness={5} />
+        </Box>
+      )}
     </Box>
   );
+
+  //   if (loading)
+  //     return (
+  //       <Box
+  //         sx={{ display: "flex", alignItems: "center", mt: 1, mb: 1, height: 55 }}
+  //       >
+  //         <Skeleton variant="circular" width={35} height={35} />
+  //         <Skeleton
+  //           variant="rectangular"
+  //           height={45}
+  //           width={250}
+  //           sx={{ ml: 2 }}
+  //         />
+  //       </Box>
+  //     );
+
+  //   if (editMode)
+  //     return (
+  //       <Box
+  //         sx={{
+  //           mt: 1,
+  //           mb: 1,
+  //           display: "flex",
+  //           alignItems: "center",
+  //           height: 55,
+  //         }}
+  //       >
+  //         <IconButton color="error" onClick={handleTextfieldCancel}>
+  //           <Cancel />
+  //         </IconButton>
+  //         <TextField
+  //           variant="standard"
+  //           label={label}
+  //           value={fieldValue}
+  //           onChange={handleTextfieldOnChange}
+  //           sx={{ ml: 2 }}
+  //         />
+  //         <IconButton color="success" onClick={handleSaveClick}>
+  //           <Save />
+  //         </IconButton>
+  //       </Box>
+  //     );
+
+  //   return (
+  //     <Box
+  //       sx={{ display: "flex", alignItems: "center", mt: 1, mb: 1, height: 55 }}
+  //     >
+  //       <IconButton color="secondary" onClick={handleSetEditMode}>
+  //         <Edit />
+  //       </IconButton>
+  //       <Typography variant="h5" color="primaryText" sx={{ ml: 1 }}>
+  //         <b>{label}:</b> {value}
+  //       </Typography>
+  //     </Box>
+  //   );
 };

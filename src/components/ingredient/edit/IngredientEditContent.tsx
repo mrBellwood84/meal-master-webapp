@@ -14,6 +14,7 @@ import { IngredientEditMessureTable } from "../_components/IngredientEditMessure
 import { IngredientEditMessureDialogForm } from "../_components/IngredientEditMessureDialogForm";
 import { ingredientUpdateStateActions } from "@/lib/state/ingredients/update/slice";
 import { ICheckboxItem } from "@/lib/models/_shared/ICheckboxItem";
+import { BoxLoader } from "@/components/_shared/loader/BoxLoader";
 
 export const IngredientEditContent = () => {
   // hooks
@@ -101,16 +102,14 @@ export const IngredientEditContent = () => {
 
     dispatch(updateSelected(updatedSelected as IIngredient));
     dispatch(updateCategoryCheckbox(updatedCheckbox));
-
-    if (loading)
-      return (
-        <Box>
-          <OneFieldForm loading />
-          <OneFieldForm loading />
-          <Divider sx={{ mt: 1, mb: 2 }} />
-        </Box>
-      );
   };
+
+  if (loading)
+    return (
+      <Box>
+        <BoxLoader />
+      </Box>
+    );
 
   if (loadingFailed)
     return (
@@ -121,7 +120,7 @@ export const IngredientEditContent = () => {
 
   return (
     <Box>
-      <Box>
+      <Box sx={{ display: "flex", flexDirection: "column", mt1: 1, mb: 1 }}>
         <OneFieldForm
           label="Navn"
           value={selected!.name}

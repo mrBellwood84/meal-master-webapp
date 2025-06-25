@@ -80,7 +80,6 @@ export const ingredientAgent = {
   updateMessure: async (dto: IIngredientUpdateMessureDTO) => {
     const domain = `${path}/messure/`;
     const response = await _rootAgent.put(domain, dto);
-    console.log("DEV :: ingredientAgent.updateMessure", response);
     const { ok, status, statusText } = response;
     return { ok, status, statusText };
   },
