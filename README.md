@@ -10,7 +10,6 @@ MEALMASTER_API_URL = "http://localhost:5105/api/"
 ### Kilder data
 
 - **[Matvaretabellen](https://www.matvaretabellen.no/)** : Oversikt over næringsinnhold fra mattilsynet
-- **[Matprat, mål og vekt](https://www.matprat.no/artikler/mengde-mal-og-vekt/mal-og-vekt/)**
 
 ### Pakker
 
