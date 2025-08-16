@@ -57,6 +57,21 @@ const setCategoryChecked = (
   return result;
 };
 
+const resetCategoryCheckboxItems = (
+  ingredient: IIngredient,
+  items: ICheckboxItem[]
+) => {
+  const checkCategories = ingredient.categories.map((x) => x.id);
+  const result = items.map((c) => {
+    return {
+      ...c,
+      checked: checkCategories.includes(c.id),
+      loading: false,
+    };
+  });
+  return result;
+};
+
 /**
  * Ads or updates the ingredient measurements for a specific ingredient.
  * @param ingredient The ingredient to update
@@ -89,10 +104,34 @@ const removeIngredientMessure = (ingredient: IIngredient, id: string) => {
   return selected;
 };
 
+const checkSelectedChanged = (selected: IIngredient, original: IIngredient) => {
+  if (selected.name !== original.name) return true;
+  if (selected.namePlural !== original.namePlural) return true;
+  if (selected.categories.length !== original.categories.length) return true;
+  if (selected.messures.length !== original.messures.length) return true;
+
+  const selectedCategories = selected.categories.map((c) => c.id).sort();
+  const originalCategories = original.categories.map((c) => c.id).sort();
+
+  for (let i = 0; i < selectedCategories.length; i++) {
+    if (selectedCategories[i] !== originalCategories[i]) return true;
+  }
+
+  const selectedMessures = selected.messures.map((m) => m.id).sort();
+  const originalMessures = original.messures.map((m) => m.id).sort();
+  for (let i = 0; i < selectedMessures.length; i++) {
+    if (selectedMessures[i] !== originalMessures[i]) return true;
+  }
+
+  return false;
+};
+
 export const ingredientUpdateStateFunctions = {
   initializeCategoryCheckboxItems,
   setCategoryCheckboxLoading,
   setCategoryChecked,
+  resetCategoryCheckboxItems,
   updateIngredientMessures,
   removeIngredientMessure,
+  checkSelectedChanged,
 };

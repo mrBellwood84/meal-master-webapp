@@ -10,8 +10,10 @@ const {
   initializeCategoryCheckboxItems,
   updateIngredientMessures,
   removeIngredientMessure,
+  resetCategoryCheckboxItems,
   setCategoryCheckboxLoading,
   setCategoryChecked,
+  checkSelectedChanged,
 } = ingredientUpdateStateFunctions;
 
 interface IDataLoadAction {
@@ -71,7 +73,10 @@ const slice = createSlice({
 
     updateSelected: (state, action: PayloadAction<IIngredient>) => {
       state.selected = action.payload;
-      state.changed = (state.original as IIngredient) !== action.payload;
+      state.changed = checkSelectedChanged(
+        action.payload,
+        state.original as IIngredient
+      );
     },
 
     setCategoryCheckboxLoading: (state, action: PayloadAction<string>) => {
@@ -95,7 +100,10 @@ const slice = createSlice({
         action.payload
       );
       state.selected = updatedSelected;
-      state.changed = state.original !== updatedSelected;
+      state.changed = checkSelectedChanged(
+        updatedSelected,
+        state.original as IIngredient
+      );
     },
 
     removeIngredientMessure: (state, action: PayloadAction<string>) => {
@@ -104,6 +112,19 @@ const slice = createSlice({
         action.payload
       );
       state.selected = updatedSelected;
+      state.changed = checkSelectedChanged(
+        updatedSelected,
+        state.original as IIngredient
+      );
+    },
+
+    undoAllChanges: (state) => {
+      state.selected = state.original;
+      state.changed = false;
+      state.categories = resetCategoryCheckboxItems(
+        state.selected as IIngredient,
+        state.categories
+      );
     },
 
     openMessureDialogCreate: (state) => {

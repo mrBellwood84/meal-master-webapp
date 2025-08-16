@@ -3,14 +3,23 @@ import { ToolbarNavBackButton } from "@/components/_shared/buttons/ToolbarNavBac
 import { ToolbarContainer } from "@/components/_shared/containers/ToolbarContainer";
 import { InlineLoader } from "@/components/_shared/loader/InlineLoader";
 import { ToolbarText } from "@/components/_shared/text/ToolbarText";
-import { useAppSelector } from "@/lib/state/hooks";
+import { useAppDispatch, useAppSelector } from "@/lib/state/hooks";
+import { ingredientUpdateStateActions } from "@/lib/state/ingredients/update/slice";
 import { Undo } from "@mui/icons-material";
 import { Box, capitalize } from "@mui/material";
 
 export const IngredientEditToolbar = () => {
+  const dispatch = useAppDispatch();
   const selected = useAppSelector((s) => s.ingredientUpdate.selected);
   const changed = useAppSelector((s) => s.ingredientUpdate.changed);
-  const handleUndoChanges = () => undefined;
+  const loading = useAppSelector((s) => s.ingredientUpdate.loading);
+  const { undoAllChanges } = ingredientUpdateStateActions;
+
+  const handleUndoChanges = () => {
+    console.error("DEV :: Undo all changes not implemented yet");
+    console.error("DEV :: Call api here....");
+    dispatch(undoAllChanges());
+  };
 
   return (
     <ToolbarContainer>
@@ -33,7 +42,7 @@ export const IngredientEditToolbar = () => {
         variant="outlined"
         color="error"
         endIcon={<Undo />}
-        disabled={!changed}
+        disabled={!changed || loading}
       />
     </ToolbarContainer>
   );
