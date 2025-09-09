@@ -12,15 +12,9 @@ const IngredientPage = () => {
     <Fragment>
       <IngredientViewDataLoader />
       <Box sx={{ display: 'grid', gridTemplateColumns: '1fr 2fr', gridTemplateRows: 'auto auto' }}>
-        <Box sx={{ gridRow: 1, gridColumn: '1/3' }}>
-          <IngredientViewToolbar />
-        </Box>
-        <Box sx={{ gridRow: 2, gridColumn: 1 }}>
-          <IngredientViewItemList />
-        </Box>
-        <Box sx={{ gridRow: 2, gridColumn: 2 }}>
-          <IngredientViewContent />
-        </Box>
+        <IngredientViewToolbar sx={{ gridRow: 1, gridColumn: '1/3' }} />
+        <IngredientViewItemList sx={{ gridRow: 2, gridColumn: 1 }} />
+        <IngredientViewContent sx={{ gridRow: 2, gridColumn: 2 }} />
       </Box>
     </Fragment>
   );

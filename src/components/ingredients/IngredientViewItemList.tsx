@@ -2,15 +2,28 @@
 
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { AsideContainer } from '@/components/ui/containers/AsideContainer';
-import { capitalize, Divider, List, ListItem, ListItemButton, ListItemText } from '@mui/material';
+import {
+  capitalize,
+  Divider,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemText,
+  SxProps,
+} from '@mui/material';
 import { ChangeEvent, useEffect, useState } from 'react';
 import { IIngredient } from '@/types/ingredients/IIngredient';
 import { ingredientViewStateActions } from '@/store/ingredients/ingredientViewState';
 import { SearchTextField } from '@/components/ui/SearchTextField';
 
+interface IProps {
+  sx?: SxProps;
+}
+
 interface IListItemButtonProps {
   title: string;
   onClick?: () => void;
+  sx?: SxProps;
 }
 
 const CustomListItemButton = ({ title, onClick }: IListItemButtonProps) => {
@@ -23,7 +36,7 @@ const CustomListItemButton = ({ title, onClick }: IListItemButtonProps) => {
   );
 };
 
-export const IngredientViewItemList = () => {
+export const IngredientViewItemList = ({ sx }: IProps) => {
   const dispatch = useAppDispatch();
   const { setSelectedIngredient } = ingredientViewStateActions;
 
@@ -68,7 +81,7 @@ export const IngredientViewItemList = () => {
   }, [ingredients, data]);
 
   return (
-    <AsideContainer loading={apiLoading} loadingFailed={loadingFailed}>
+    <AsideContainer loading={apiLoading} loadingFailed={loadingFailed} sx={{ ...sx }}>
       <List>
         <SearchTextField
           value={searchTerm}

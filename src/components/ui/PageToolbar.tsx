@@ -1,20 +1,20 @@
-import React, { Fragment } from 'react';
-import { Divider, Toolbar } from '@mui/material';
+import { Box, Paper, SxProps, Toolbar } from '@mui/material';
 import { PageTitle } from '@/components/ui/typography/PageTitle';
+import { ReactNode } from 'react';
 
 interface IProps {
   title: string;
-  children?: React.ReactNode;
+  children?: ReactNode;
+  sx?: SxProps;
 }
 
-export const PageToolbar = ({ title, children }: IProps) => {
+export const PageToolbar = ({ title, children, sx }: IProps) => {
   return (
-    <Fragment>
-      <Toolbar variant="dense" disableGutters sx={{ display: 'flex', alignItems: 'center' }}>
-        <PageTitle title={title} />
-        {children}
-      </Toolbar>
-      <Divider sx={{ mt: 1, mb: 1 }} />
-    </Fragment>
+    <Box sx={{ display: 'flex', flexDirection: 'column', width: 'full', ...sx }}>
+      <PageTitle title={title} />
+      <Paper elevation={0} sx={{ mb: 1, mt: 1 }}>
+        <Toolbar>{children}</Toolbar>
+      </Paper>
+    </Box>
   );
 };

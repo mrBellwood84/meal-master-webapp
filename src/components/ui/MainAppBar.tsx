@@ -14,7 +14,7 @@ const links: IPageLink[] = [
     text: 'Oppskrifter',
     key: 'recipe',
     url: '/recipe',
-    active: false,
+    active: true,
   },
   {
     text: 'Ingredienser',
