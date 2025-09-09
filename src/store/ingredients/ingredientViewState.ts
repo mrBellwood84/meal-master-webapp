@@ -1,9 +1,9 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { Ingredient } from '@/types/ingredients/IIngredient';
+import { IIngredient } from '@/types/ingredients/IIngredient';
 
 interface IState {
-  ingredients: Ingredient[];
-  selected?: Ingredient;
+  ingredients: IIngredient[];
+  selected?: IIngredient;
   apiLoading: boolean;
   loadingFailed: boolean;
 }
@@ -18,11 +18,11 @@ const ingredientViewState = createSlice({
   name: 'ingredientView',
   initialState,
   reducers: {
-    setIngredientAll: (state, action: PayloadAction<Ingredient[]>) => {
+    setIngredientAll: (state, action: PayloadAction<IIngredient[]>) => {
       state.ingredients = action.payload;
       state.apiLoading = false;
     },
-    setSelectedIngredient: (state, action: PayloadAction<Ingredient>) => {
+    setSelectedIngredient: (state, action: PayloadAction<IIngredient>) => {
       state.selected = action.payload;
     },
     setLoadingFailed: (state) => {

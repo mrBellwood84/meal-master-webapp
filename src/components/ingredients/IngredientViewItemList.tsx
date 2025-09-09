@@ -3,8 +3,8 @@
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { AsideContainer } from '@/components/ui/containers/AsideContainer';
 import { capitalize, Divider, List, ListItem, ListItemButton, ListItemText } from '@mui/material';
-import { ChangeEvent, useEffect, useRef, useState } from 'react';
-import { Ingredient } from '@/types/ingredients/IIngredient';
+import { ChangeEvent, useEffect, useState } from 'react';
+import { IIngredient } from '@/types/ingredients/IIngredient';
 import { ingredientViewStateActions } from '@/store/ingredients/ingredientViewState';
 import { SearchTextField } from '@/components/ui/SearchTextField';
 
@@ -31,10 +31,10 @@ export const IngredientViewItemList = () => {
   const loadingFailed = useAppSelector((s) => s.ingredientView.loadingFailed);
   const data = useAppSelector((s) => s.ingredientView.ingredients);
 
-  const [ingredients, setIngredients] = useState<Ingredient[]>([]);
+  const [ingredients, setIngredients] = useState<IIngredient[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
 
-  const setSelected = (ingredient: Ingredient) => dispatch(setSelectedIngredient(ingredient));
+  const setSelected = (ingredient: IIngredient) => dispatch(setSelectedIngredient(ingredient));
 
   const handleOnChange = (e: ChangeEvent<HTMLInputElement>) => {
     const term = e.target.value;
@@ -72,8 +72,8 @@ export const IngredientViewItemList = () => {
       <List>
         <SearchTextField
           value={searchTerm}
-          handleOnChange={handleOnChange}
-          handleClearClick={clearSearchTerm}
+          handleOnChangeAction={handleOnChange}
+          handleClearClickAction={clearSearchTerm}
           sx={{ m: 1 }}
         />
         <Divider />

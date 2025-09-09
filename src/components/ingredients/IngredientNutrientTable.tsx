@@ -9,8 +9,7 @@ import {
   TableHead,
   TableRow,
 } from '@mui/material';
-import { useCallback, useEffect, useRef, useState } from 'react';
-import { display } from '@mui/system';
+import { useEffect, useState } from 'react';
 
 type TableSizeTypes = 'small' | 'medium';
 type DetailLevelTypes = 'minimal' | 'extended' | 'full';
@@ -55,7 +54,6 @@ const CustomRow = ({ nutrient }: IRowProps) => {
       <TableCell align="right">
         {nutrient.value} {nutrient.nutrient.measure.unit}
       </TableCell>
-      {/*<TableCell>{nutrient.nutrient.measure.unit}</TableCell>*/}
     </TableRow>
   );
 };

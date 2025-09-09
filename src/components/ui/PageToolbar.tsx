@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import { Divider, Toolbar, Typography } from '@mui/material';
+import { Divider, Toolbar } from '@mui/material';
 import { PageTitle } from '@/components/ui/typography/PageTitle';
 
 interface IProps {

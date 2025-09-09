@@ -6,12 +6,17 @@ import { ChangeEvent } from 'react';
 
 interface IProps {
   value: string;
-  handleOnChange: (e: ChangeEvent<HTMLInputElement>) => void;
-  handleClearClick: () => void;
+  handleOnChangeAction: (e: ChangeEvent<HTMLInputElement>) => void;
+  handleClearClickAction: () => void;
   sx?: SxProps;
 }
 
-export const SearchTextField = ({ value, handleOnChange, handleClearClick, sx }: IProps) => {
+export const SearchTextField = ({
+  value,
+  handleOnChangeAction,
+  handleClearClickAction,
+  sx,
+}: IProps) => {
   const showClear = Boolean(value);
 
   return (
@@ -21,7 +26,7 @@ export const SearchTextField = ({ value, handleOnChange, handleClearClick, sx }:
         size="small"
         value={value}
         placeholder="Søk"
-        onChange={handleOnChange}
+        onChange={handleOnChangeAction}
         sx={{ width: 200 }}
         slotProps={{
           input: {
@@ -32,7 +37,7 @@ export const SearchTextField = ({ value, handleOnChange, handleClearClick, sx }:
             ),
             endAdornment: showClear && (
               <InputAdornment position="end">
-                <IconButton size="small" onClick={handleClearClick}>
+                <IconButton size="small" onClick={handleClearClickAction}>
                   <Close />
                 </IconButton>
               </InputAdornment>

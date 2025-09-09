@@ -3,7 +3,7 @@ import { IIngredientMeasure } from '@/types/ingredients/IIngredientMeasure';
 import { IIngredientNutrient } from '@/types/ingredients/IIngredientNutrient';
 import { ISource } from '@/types/misc/ISource';
 
-export interface Ingredient {
+export interface IIngredient {
   id: string;
   name: string;
   namePlural: string;
