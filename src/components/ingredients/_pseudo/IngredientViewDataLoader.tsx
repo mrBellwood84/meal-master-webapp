@@ -19,8 +19,7 @@ export const IngredientViewDataLoader = () => {
       .catch((err) => {
         console.error(err);
         dispatch(setLoadingFailed());
-      })
-      .finally(() => (loaded.current = true));
+      });
   }
 
   return null;

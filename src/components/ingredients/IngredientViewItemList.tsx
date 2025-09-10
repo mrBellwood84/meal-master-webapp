@@ -14,7 +14,7 @@ import {
 import { ChangeEvent, useEffect, useState } from 'react';
 import { IIngredient } from '@/types/ingredients/IIngredient';
 import { ingredientViewStateActions } from '@/store/ingredients/ingredientViewState';
-import { SearchTextField } from '@/components/ui/SearchTextField';
+import { AppSearchField } from '@/components/ui/AppSearchField';
 
 interface IProps {
   sx?: SxProps;
@@ -83,7 +83,7 @@ export const IngredientViewItemList = ({ sx }: IProps) => {
   return (
     <AsideContainer loading={apiLoading} loadingFailed={loadingFailed} sx={{ ...sx }}>
       <List>
-        <SearchTextField
+        <AppSearchField
           value={searchTerm}
           handleOnChangeAction={handleOnChange}
           handleClearClickAction={clearSearchTerm}
